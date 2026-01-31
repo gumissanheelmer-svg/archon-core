@@ -1,13 +1,17 @@
-import { Volume2 } from "lucide-react";
+import { Volume2, Loader2, Square } from "lucide-react";
 import { SpecialistId, specialists } from "./SpecialistCard";
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 interface ResponseBlockProps {
+  id: string;
   type: "archon" | SpecialistId;
   content: string;
   details?: { label: string; value: string }[];
 }
 
-const ResponseBlock = ({ type, content, details }: ResponseBlockProps) => {
+const ResponseBlock = ({ id, type, content, details }: ResponseBlockProps) => {
+  const { speak, isPlaying, isLoading } = useTextToSpeech();
+  
   const isArchon = type === "archon";
   const specialist = !isArchon ? specialists[type as SpecialistId] : null;
   const Icon = specialist?.icon;
@@ -15,6 +19,16 @@ const ResponseBlock = ({ type, content, details }: ResponseBlockProps) => {
   const blockClass = isArchon 
     ? "response-block-archon" 
     : `response-block response-block-${type}`;
+
+  const handleSpeak = () => {
+    const fullText = details 
+      ? `${content}. ${details.map(d => `${d.label}: ${d.value}`).join(". ")}`
+      : content;
+    speak(fullText, type, id);
+  };
+
+  const isCurrentlyPlaying = isPlaying === id;
+  const isCurrentlyLoading = isLoading === id;
 
   return (
     <div className={`${blockClass} animate-fade-in-slow`}>
@@ -35,11 +49,23 @@ const ResponseBlock = ({ type, content, details }: ResponseBlockProps) => {
           </div>
         </div>
         
-        {!isArchon && (
-          <button className="p-2 text-muted-foreground hover:text-foreground transition-colors duration-300">
+        <button 
+          onClick={handleSpeak}
+          disabled={isCurrentlyLoading}
+          className={`p-2 transition-colors duration-300 ${
+            isCurrentlyPlaying 
+              ? "text-primary" 
+              : "text-muted-foreground hover:text-foreground"
+          } ${isCurrentlyLoading ? "opacity-50 cursor-wait" : ""}`}
+        >
+          {isCurrentlyLoading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : isCurrentlyPlaying ? (
+            <Square className="w-4 h-4" />
+          ) : (
             <Volume2 className="w-4 h-4" />
-          </button>
-        )}
+          )}
+        </button>
       </div>
 
       <p className="text-foreground/90 leading-relaxed mb-4">
