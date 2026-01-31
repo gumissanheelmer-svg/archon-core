@@ -61,7 +61,6 @@ const ArchonResponse = () => {
             </h1>
           </div>
 
-          {/* Response Blocks */}
           <div className="space-y-6">
             {responses.map((response, index) => (
               <div
@@ -69,6 +68,7 @@ const ArchonResponse = () => {
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 <ResponseBlock
+                  id={`response-${index}`}
                   type={response.type}
                   content={response.content}
                   details={response.details}
