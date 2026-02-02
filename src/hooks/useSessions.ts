@@ -115,7 +115,18 @@ export const useSessions = (objectId?: string) => {
     input: CreateSessionInput,
     objectContext: { name: string; objective: string | null; context: string | null }
   ): Promise<Session | null> => {
-    if (!user || !authSession) return null;
+    if (!user) return null;
+
+    // Fetch fresh session to ensure valid token (auto-refresh if needed)
+    const { data: { session: freshSession } } = await supabase.auth.getSession();
+    if (!freshSession) {
+      toast({
+        title: "Sessão expirada",
+        description: "Por favor, faça login novamente.",
+        variant: "destructive",
+      });
+      return null;
+    }
 
     setAnalyzing(true);
     let sessionId: string | null = null;
@@ -148,7 +159,7 @@ export const useSessions = (objectId?: string) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${authSession.access_token}`,
+            Authorization: `Bearer ${freshSession.access_token}`,
           },
           body: JSON.stringify({
             pergunta: input.question,
