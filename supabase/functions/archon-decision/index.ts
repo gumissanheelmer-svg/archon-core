@@ -1,9 +1,20 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import {
+  runSecurityChecks,
+  validatePayload,
+  auditLog,
+  getSecurityHeaders,
+  sanitizeOutput,
+} from "../_shared/security.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+// Rate limit config: 30 requests per 10 minutes
+const RATE_LIMIT_CONFIG = {
+  maxRequests: 30,
+  windowMs: 10 * 60 * 1000, // 10 minutes
 };
+
+// Max field length for user inputs
+const MAX_FIELD_LENGTH = 4000;
 
 interface DecisionRequest {
   pergunta: string;
@@ -74,18 +85,79 @@ Você deve responder EXCLUSIVAMENTE através de tool calling, usando a função 
 6. Adapte a profundidade ao horizonte temporal (curto/medio/longo).`;
 
 serve(async (req) => {
+  const headers = getSecurityHeaders(req.headers.get('origin') || undefined);
+
+  // Handle CORS preflight
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { headers });
   }
 
+  // Only allow POST
+  if (req.method !== "POST") {
+    return new Response(
+      JSON.stringify({ error: "Método não permitido" }),
+      { status: 405, headers }
+    );
+  }
+
+  const startTime = Date.now();
+
   try {
-    const body: DecisionRequest = await req.json();
+    // Run security checks (IP allowlist + rate limiting)
+    const securityCheck = await runSecurityChecks(req, 'api/archon-decision', RATE_LIMIT_CONFIG);
+    if (!securityCheck.passed) {
+      return securityCheck.response!;
+    }
+
+    // Verify authentication (check for valid JWT)
+    const authHeader = req.headers.get('authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      auditLog('analyze_unauthorized', { ip: securityCheck.ip.substring(0, 8) + '***' });
+      return new Response(
+        JSON.stringify({ error: "Autenticação necessária" }),
+        { status: 401, headers }
+      );
+    }
+
+    // Parse and validate body
+    let body: DecisionRequest;
+    try {
+      body = await req.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ error: "Payload inválido" }),
+        { status: 400, headers }
+      );
+    }
+
+    // Validate payload structure and size
+    const payloadCheck = validatePayload(body, MAX_FIELD_LENGTH);
+    if (!payloadCheck.allowed) {
+      auditLog('analyze_rejected', { 
+        reason: 'payload_validation',
+        ip: securityCheck.ip.substring(0, 8) + '***'
+      });
+      return new Response(
+        JSON.stringify({ error: payloadCheck.reason }),
+        { status: 400, headers }
+      );
+    }
+
     const { pergunta, objeto_em_analise, objetivo_atual, horizonte, contexto_opcional } = body;
 
+    // Validate required fields
     if (!pergunta || !objeto_em_analise || !objetivo_atual || !horizonte) {
       return new Response(
         JSON.stringify({ error: "Campos obrigatórios: pergunta, objeto_em_analise, objetivo_atual, horizonte" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 400, headers }
+      );
+    }
+
+    // Validate horizonte enum
+    if (!['curto', 'medio', 'longo'].includes(horizonte)) {
+      return new Response(
+        JSON.stringify({ error: "Horizonte deve ser: curto, medio ou longo" }),
+        { status: 400, headers }
       );
     }
 
@@ -174,20 +246,26 @@ Processe esta entrada e retorne a análise do Conselho Estratégico.`;
     });
 
     if (!response.ok) {
+      const duration = Date.now() - startTime;
+      
       if (response.status === 429) {
+        auditLog('analyze_rate_limited', { duration_ms: duration, ip: securityCheck.ip.substring(0, 8) + '***' });
         return new Response(
-          JSON.stringify({ error: "Rate limit excedido. Aguarde alguns segundos e tente novamente." }),
-          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          JSON.stringify({ error: "Limite de requisições excedido. Aguarde alguns segundos e tente novamente." }),
+          { status: 429, headers }
         );
       }
       if (response.status === 402) {
+        auditLog('analyze_payment_required', { duration_ms: duration, ip: securityCheck.ip.substring(0, 8) + '***' });
         return new Response(
           JSON.stringify({ error: "Créditos insuficientes. Adicione créditos ao workspace." }),
-          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          { status: 402, headers }
         );
       }
+      
       const errorText = await response.text();
       console.error("AI Gateway error:", response.status, errorText);
+      auditLog('analyze_error', { status: response.status, duration_ms: duration });
       throw new Error(`AI Gateway error: ${response.status}`);
     }
 
@@ -200,15 +278,39 @@ Processe esta entrada e retorne a análise do Conselho Estratégico.`;
 
     const decisionResponse: DecisionResponse = JSON.parse(toolCall.function.arguments);
 
-    return new Response(JSON.stringify(decisionResponse), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    // Sanitize all output fields to prevent XSS
+    const sanitizedResponse: DecisionResponse = {
+      archon_sintese: sanitizeOutput(decisionResponse.archon_sintese),
+      akira_estrategia: sanitizeOutput(decisionResponse.akira_estrategia),
+      maya_conteudo: sanitizeOutput(decisionResponse.maya_conteudo),
+      chen_dados: sanitizeOutput(decisionResponse.chen_dados),
+      yuki_psicologia: sanitizeOutput(decisionResponse.yuki_psicologia),
+      plano_de_acao: decisionResponse.plano_de_acao.map(item => ({
+        acao: sanitizeOutput(item.acao),
+        prioridade: item.prioridade,
+      })),
+    };
+
+    const duration = Date.now() - startTime;
+    auditLog('analyze_success', { 
+      duration_ms: duration, 
+      ip: securityCheck.ip.substring(0, 8) + '***',
+      horizonte,
+      actions_count: sanitizedResponse.plano_de_acao.length
     });
 
+    return new Response(JSON.stringify(sanitizedResponse), { headers });
+
   } catch (error) {
+    const duration = Date.now() - startTime;
     console.error("ARCHON Decision error:", error);
+    auditLog('analyze_error', { 
+      error: error instanceof Error ? error.message : 'unknown',
+      duration_ms: duration
+    });
     return new Response(
       JSON.stringify({ error: error instanceof Error ? error.message : "Erro interno do servidor" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers }
     );
   }
 });
