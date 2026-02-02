@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Loader2 } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
@@ -6,12 +6,14 @@ import SpecialistCard, { SpecialistId, SpecialistStatus } from "@/components/spe
 import { useArchonContext } from "@/hooks/useArchonContext";
 import { useObjects } from "@/hooks/useObjects";
 import { useSessions } from "@/hooks/useSessions";
+import { useMemory } from "@/hooks/useMemory";
 
 const CouncilRoom = () => {
   const navigate = useNavigate();
   const { context, setResponse } = useArchonContext();
   const { activeObject } = useObjects();
   const { analyzeQuestion, analyzing } = useSessions(activeObject?.id);
+  const { getMemoryBrief } = useMemory();
   
   const [query, setQuery] = useState("");
   const [specialistStatuses, setSpecialistStatuses] = useState<Record<SpecialistId, SpecialistStatus>>({
@@ -32,12 +34,16 @@ const CouncilRoom = () => {
       }, index * 200);
     });
 
-    // Call the real API with persistence
+    // Get memory brief for context injection
+    const memoryBrief = getMemoryBrief();
+
+    // Call the real API with persistence and memory
     const session = await analyzeQuestion(
       {
         object_id: activeObject.id,
         question: query.trim(),
         horizon: context.horizonte,
+        memoryBrief: memoryBrief || undefined,
       },
       {
         name: activeObject.name,

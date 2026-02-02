@@ -41,6 +41,7 @@ export interface CreateSessionInput {
   object_id: string;
   question: string;
   horizon: TimeHorizon;
+  memoryBrief?: string; // Strategic memory to inject in ARCHON prompt
 }
 
 export interface SessionResponse {
@@ -155,6 +156,7 @@ export const useSessions = (objectId?: string) => {
             objetivo_atual: objectContext.objective || "Não definido",
             horizonte: input.horizon,
             contexto_opcional: objectContext.context || undefined,
+            memoria_estrategica: input.memoryBrief || undefined,
           }),
         }
       );
