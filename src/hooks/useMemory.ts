@@ -46,8 +46,13 @@ export const useMemory = () => {
   const [loading, setLoading] = useState(true);
 
   // Fetch all active memory items
+  // CRITICAL: This function NEVER throws - sets empty array on any error
   const fetchMemory = useCallback(async () => {
-    if (!user) return;
+    if (!user) {
+      setItems([]);
+      setLoading(false);
+      return;
+    }
 
     try {
       const { data, error } = await supabase
@@ -58,19 +63,21 @@ export const useMemory = () => {
         .order("priority", { ascending: false })
         .order("updated_at", { ascending: false });
 
-      if (error) throw error;
-      setItems((data || []) as MemoryItem[]);
+      if (error) {
+        // Log but don't throw - continue with empty memory
+        console.warn("Memory fetch failed, continuing with empty memory:", error);
+        setItems([]);
+      } else {
+        setItems((data || []) as MemoryItem[]);
+      }
     } catch (error) {
-      console.error("Error fetching memory:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível carregar a memória estratégica.",
-        variant: "destructive",
-      });
+      // NEVER fail - log and set empty array
+      console.warn("Memory fetch error, continuing with empty memory:", error);
+      setItems([]);
     } finally {
       setLoading(false);
     }
-  }, [user, toast]);
+  }, [user]);
 
   useEffect(() => {
     fetchMemory();
@@ -199,34 +206,42 @@ export const useMemory = () => {
   };
 
   // Get memory brief for ARCHON context (compacted bullet points)
+  // CRITICAL: This function NEVER throws - always returns empty string on any error
   const getMemoryBrief = useCallback((): string => {
-    if (items.length === 0) return "";
+    try {
+      // Return empty if no items - this is not an error
+      if (!items || items.length === 0) return "";
 
-    const grouped = items.reduce((acc, item) => {
-      if (!acc[item.category]) acc[item.category] = [];
-      acc[item.category].push(item);
-      return acc;
-    }, {} as Record<MemoryCategory, MemoryItem[]>);
+      const grouped = items.reduce((acc, item) => {
+        if (!acc[item.category]) acc[item.category] = [];
+        acc[item.category].push(item);
+        return acc;
+      }, {} as Record<MemoryCategory, MemoryItem[]>);
 
-    const lines: string[] = [];
+      const lines: string[] = [];
 
-    // Order: identity first, then rules, preferences, learnings, context
-    const categoryOrder: MemoryCategory[] = ["identity", "rules", "preferences", "learnings", "context"];
+      // Order: identity first, then rules, preferences, learnings, context
+      const categoryOrder: MemoryCategory[] = ["identity", "rules", "preferences", "learnings", "context"];
 
-    for (const category of categoryOrder) {
-      const categoryItems = grouped[category];
-      if (categoryItems && categoryItems.length > 0) {
-        lines.push(`## ${MEMORY_CATEGORY_LABELS[category]}`);
-        // Take top items by priority (max 5 per category)
-        const topItems = categoryItems.slice(0, 5);
-        topItems.forEach((item) => {
-          lines.push(`- ${item.content}`);
-        });
-        lines.push("");
+      for (const category of categoryOrder) {
+        const categoryItems = grouped[category];
+        if (categoryItems && categoryItems.length > 0) {
+          lines.push(`## ${MEMORY_CATEGORY_LABELS[category]}`);
+          // Take top items by priority (max 5 per category)
+          const topItems = categoryItems.slice(0, 5);
+          topItems.forEach((item) => {
+            lines.push(`- ${item.content}`);
+          });
+          lines.push("");
+        }
       }
-    }
 
-    return lines.join("\n").trim();
+      return lines.join("\n").trim();
+    } catch (error) {
+      // NEVER fail - log and return empty string
+      console.warn("Memory brief generation failed, continuing without memory:", error);
+      return "";
+    }
   }, [items]);
 
   // Get items by category
