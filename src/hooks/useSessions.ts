@@ -159,7 +159,8 @@ export const useSessions = (objectId?: string) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${freshSession.access_token}`,
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            "Authorization": `Bearer ${freshSession.access_token}`,
           },
           body: JSON.stringify({
             pergunta: input.question,
