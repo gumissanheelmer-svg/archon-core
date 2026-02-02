@@ -281,7 +281,7 @@ export const useSessions = (objectId?: string) => {
 
       toast({
         title: "Erro",
-        description: "Não foi possível completar a análise.",
+        description: error instanceof Error ? error.message : "Não foi possível completar a análise.",
         variant: "destructive",
       });
       return null;
