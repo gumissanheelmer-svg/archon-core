@@ -14,7 +14,163 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      objects: {
+        Row: {
+          context: string | null
+          created_at: string
+          description: string | null
+          horizon: Database["public"]["Enums"]["time_horizon"]
+          id: string
+          name: string
+          objective: string | null
+          status: Database["public"]["Enums"]["object_status"]
+          tenant_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          context?: string | null
+          created_at?: string
+          description?: string | null
+          horizon?: Database["public"]["Enums"]["time_horizon"]
+          id?: string
+          name: string
+          objective?: string | null
+          status?: Database["public"]["Enums"]["object_status"]
+          tenant_id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          context?: string | null
+          created_at?: string
+          description?: string | null
+          horizon?: Database["public"]["Enums"]["time_horizon"]
+          id?: string
+          name?: string
+          objective?: string | null
+          status?: Database["public"]["Enums"]["object_status"]
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      plan_actions: {
+        Row: {
+          action_text: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          priority: Database["public"]["Enums"]["action_priority"]
+          session_id: string
+          status: Database["public"]["Enums"]["action_status"]
+          tenant_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action_text: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          priority?: Database["public"]["Enums"]["action_priority"]
+          session_id: string
+          status?: Database["public"]["Enums"]["action_status"]
+          tenant_id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action_text?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          priority?: Database["public"]["Enums"]["action_priority"]
+          session_id?: string
+          status?: Database["public"]["Enums"]["action_status"]
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plan_actions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sessions: {
+        Row: {
+          akira_estrategia: string | null
+          archon_sintese: string | null
+          chen_dados: string | null
+          created_at: string
+          error_message: string | null
+          horizon: Database["public"]["Enums"]["time_horizon"]
+          id: string
+          maya_conteudo: string | null
+          model_used: string | null
+          object_id: string
+          processing_time_ms: number | null
+          question: string
+          status: Database["public"]["Enums"]["session_status"]
+          tenant_id: string
+          updated_at: string
+          user_id: string
+          yuki_psicologia: string | null
+        }
+        Insert: {
+          akira_estrategia?: string | null
+          archon_sintese?: string | null
+          chen_dados?: string | null
+          created_at?: string
+          error_message?: string | null
+          horizon: Database["public"]["Enums"]["time_horizon"]
+          id?: string
+          maya_conteudo?: string | null
+          model_used?: string | null
+          object_id: string
+          processing_time_ms?: number | null
+          question: string
+          status?: Database["public"]["Enums"]["session_status"]
+          tenant_id?: string
+          updated_at?: string
+          user_id: string
+          yuki_psicologia?: string | null
+        }
+        Update: {
+          akira_estrategia?: string | null
+          archon_sintese?: string | null
+          chen_dados?: string | null
+          created_at?: string
+          error_message?: string | null
+          horizon?: Database["public"]["Enums"]["time_horizon"]
+          id?: string
+          maya_conteudo?: string | null
+          model_used?: string | null
+          object_id?: string
+          processing_time_ms?: number | null
+          question?: string
+          status?: Database["public"]["Enums"]["session_status"]
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string
+          yuki_psicologia?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_object_id_fkey"
+            columns: ["object_id"]
+            isOneToOne: false
+            referencedRelation: "objects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +179,11 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      action_priority: "alta" | "media" | "baixa"
+      action_status: "pending" | "in_progress" | "done" | "skipped"
+      object_status: "draft" | "active" | "archived"
+      session_status: "created" | "processing" | "completed" | "failed"
+      time_horizon: "curto" | "medio" | "longo"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +310,12 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      action_priority: ["alta", "media", "baixa"],
+      action_status: ["pending", "in_progress", "done", "skipped"],
+      object_status: ["draft", "active", "archived"],
+      session_status: ["created", "processing", "completed", "failed"],
+      time_horizon: ["curto", "medio", "longo"],
+    },
   },
 } as const
