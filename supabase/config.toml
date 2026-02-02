@@ -6,3 +6,9 @@ verify_jwt = false
 
 [functions.elevenlabs-tts]
 verify_jwt = false
+
+[functions.auth-validate]
+verify_jwt = false
+
+[functions.setup-user]
+verify_jwt = false
