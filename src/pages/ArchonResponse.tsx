@@ -1,49 +1,51 @@
 import { useNavigate } from "react-router-dom";
+import { AlertCircle } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
 import ResponseBlock from "@/components/specialists/ResponseBlock";
+import { useArchonContext } from "@/hooks/useArchonContext";
 
 const ArchonResponse = () => {
   const navigate = useNavigate();
+  const { response, context } = useArchonContext();
+
+  // Redirect if no response
+  if (!response || !context) {
+    return (
+      <AppLayout>
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
+          <AlertCircle className="w-8 h-8 text-muted-foreground mb-4" />
+          <p className="text-muted-foreground mb-4">Nenhuma análise disponível.</p>
+          <button
+            onClick={() => navigate("/council")}
+            className="archon-button"
+          >
+            Iniciar Análise
+          </button>
+        </div>
+      </AppLayout>
+    );
+  }
 
   const responses = [
     {
       type: "archon" as const,
-      content: "O foco deve ser aquisição direta. Ignore crescimento vazio. Concentre energia em conversões reais, não em métricas de vaidade.",
+      content: response.archon_sintese,
     },
     {
       type: "akira" as const,
-      content: "A estratégia atual dispersa recursos. Recomendo foco absoluto em um único canal de aquisição durante os próximos 30 dias.",
-      details: [
-        { label: "Direção", value: "Canal único de alta conversão" },
-        { label: "Prioridade", value: "Stories com CTA direto" },
-        { label: "Ignorar", value: "Crescimento orgânico passivo" },
-      ],
+      content: response.akira_estrategia,
     },
     {
       type: "maya" as const,
-      content: "O conteúdo precisa de urgência controlada. Menos posts educativos, mais prova social e escassez real.",
-      details: [
-        { label: "Ideias", value: "Cases de sucesso em vídeo curto" },
-        { label: "Formato", value: "Stories sequenciais com swipe-up" },
-        { label: "Ângulo", value: "Transformação antes/depois" },
-      ],
+      content: response.maya_conteudo,
     },
     {
       type: "chen" as const,
-      content: "Os dados mostram taxa de conversão de 2.3%. Meta: 4.5% em 30 dias. Isso requer otimização do funil de entrada.",
-      details: [
-        { label: "Medir", value: "CTR dos stories, tempo no link" },
-        { label: "Teste", value: "A/B em CTAs: urgência vs. benefício" },
-      ],
+      content: response.chen_dados,
     },
     {
       type: "yuki" as const,
-      content: "O público está em estado de comparação. Precisam sentir que estão a perder algo, não a ganhar algo.",
-      details: [
-        { label: "Gatilho", value: "FOMO + prova social" },
-        { label: "Linguagem", value: "Direta, sem jargão" },
-        { label: "Emoção", value: "Urgência controlada" },
-      ],
+      content: response.yuki_psicologia,
     },
   ];
 
@@ -59,19 +61,22 @@ const ArchonResponse = () => {
             <h1 className="text-2xl font-semibold text-foreground">
               Resposta do ARCHON
             </h1>
+            <p className="text-xs text-muted-foreground/50 mt-2">
+              {context.objeto_em_analise} • {context.objetivo_atual}
+            </p>
           </div>
 
           <div className="space-y-6">
-            {responses.map((response, index) => (
+            {responses.map((resp, index) => (
               <div
                 key={index}
+                className="animate-fade-in-slow"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 <ResponseBlock
                   id={`response-${index}`}
-                  type={response.type}
-                  content={response.content}
-                  details={response.details}
+                  type={resp.type}
+                  content={resp.content}
                 />
               </div>
             ))}

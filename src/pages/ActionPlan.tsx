@@ -1,24 +1,32 @@
-import { useState } from "react";
-import { Check, Circle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Check, Circle, AlertCircle } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
+import { useArchonContext, ActionItem as ArchonAction } from "@/hooks/useArchonContext";
 
 interface ActionItem {
   id: string;
   task: string;
-  priority: "alta" | "média" | "baixa";
-  deadline: string;
+  priority: "alta" | "media" | "baixa";
   completed: boolean;
 }
 
 const ActionPlan = () => {
-  const [actions, setActions] = useState<ActionItem[]>([
-    { id: "1", task: "Criar 3 stories com casos de sucesso", priority: "alta", deadline: "Hoje", completed: false },
-    { id: "2", task: "Configurar A/B test de CTAs", priority: "alta", deadline: "Amanhã", completed: false },
-    { id: "3", task: "Gravar vídeo antes/depois de cliente", priority: "média", deadline: "3 dias", completed: false },
-    { id: "4", task: "Revisar copy de urgência nos links", priority: "média", deadline: "3 dias", completed: false },
-    { id: "5", task: "Desativar posts educativos agendados", priority: "baixa", deadline: "Esta semana", completed: false },
-    { id: "6", task: "Setup de tracking para CTR", priority: "alta", deadline: "Hoje", completed: true },
-  ]);
+  const navigate = useNavigate();
+  const { response, context } = useArchonContext();
+  const [actions, setActions] = useState<ActionItem[]>([]);
+
+  useEffect(() => {
+    if (response?.plano_de_acao) {
+      const mappedActions: ActionItem[] = response.plano_de_acao.map((action, index) => ({
+        id: String(index + 1),
+        task: action.acao,
+        priority: action.prioridade,
+        completed: false,
+      }));
+      setActions(mappedActions);
+    }
+  }, [response]);
 
   const toggleAction = (id: string) => {
     setActions(prev =>
@@ -30,12 +38,36 @@ const ActionPlan = () => {
 
   const priorityStyles = {
     alta: "bg-red-500/10 text-red-400 border-red-500/30",
-    média: "bg-yellow-500/10 text-yellow-400 border-yellow-500/30",
+    media: "bg-yellow-500/10 text-yellow-400 border-yellow-500/30",
     baixa: "bg-muted text-muted-foreground border-border",
   };
 
+  const priorityLabels = {
+    alta: "Alta",
+    media: "Média",
+    baixa: "Baixa",
+  };
+
+  // Redirect if no response
+  if (!response || !context) {
+    return (
+      <AppLayout>
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
+          <AlertCircle className="w-8 h-8 text-muted-foreground mb-4" />
+          <p className="text-muted-foreground mb-4">Nenhum plano disponível.</p>
+          <button
+            onClick={() => navigate("/council")}
+            className="archon-button"
+          >
+            Iniciar Análise
+          </button>
+        </div>
+      </AppLayout>
+    );
+  }
+
   const completedCount = actions.filter(a => a.completed).length;
-  const progress = (completedCount / actions.length) * 100;
+  const progress = actions.length > 0 ? (completedCount / actions.length) * 100 : 0;
 
   return (
     <AppLayout>
@@ -46,9 +78,12 @@ const ActionPlan = () => {
             <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">
               Plano de Ação
             </p>
-            <h1 className="text-2xl font-semibold text-foreground mb-4">
-              Agenda Smart – Instagram
+            <h1 className="text-2xl font-semibold text-foreground mb-2">
+              {context.objeto_em_analise}
             </h1>
+            <p className="text-sm text-muted-foreground mb-4">
+              {context.objetivo_atual}
+            </p>
             
             {/* Progress Bar */}
             <div className="flex items-center gap-4">
@@ -95,15 +130,22 @@ const ActionPlan = () => {
                   </p>
                   <div className="flex items-center gap-3 mt-2">
                     <span className={`text-xs px-2 py-0.5 rounded border ${priorityStyles[action.priority]}`}>
-                      {action.priority}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {action.deadline}
+                      {priorityLabels[action.priority]}
                     </span>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Back button */}
+          <div className="mt-12 text-center animate-fade-in-slow animation-delay-800">
+            <button
+              onClick={() => navigate("/response")}
+              className="archon-button"
+            >
+              Ver Análise Completa
+            </button>
           </div>
         </div>
       </div>
