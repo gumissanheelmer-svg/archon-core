@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
 import SpecialistCard, { SpecialistId, SpecialistStatus } from "@/components/specialists/SpecialistCard";
+import { useArchonContext } from "@/hooks/useArchonContext";
+import { useArchonDecision } from "@/hooks/useArchonDecision";
 
 const CouncilRoom = () => {
   const navigate = useNavigate();
+  const { context, response } = useArchonContext();
+  const { analyze, isLoading } = useArchonDecision();
   const [query, setQuery] = useState("");
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [specialistStatuses, setSpecialistStatuses] = useState<Record<SpecialistId, SpecialistStatus>>({
     akira: "idle",
     maya: "idle",
@@ -15,32 +18,68 @@ const CouncilRoom = () => {
     yuki: "idle",
   });
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!query.trim()) return;
     
-    setIsAnalyzing(true);
-    
-    // Simulate sequential specialist activation
+    // Animate specialists thinking
     const specialists: SpecialistId[] = ["akira", "maya", "chen", "yuki"];
-    
     specialists.forEach((specialist, index) => {
       setTimeout(() => {
         setSpecialistStatuses(prev => ({ ...prev, [specialist]: "thinking" }));
-      }, index * 800);
+      }, index * 200);
     });
 
-    // Navigate to response after all specialists are activated
-    setTimeout(() => {
-      navigate("/response");
-    }, specialists.length * 800 + 1500);
+    // Call the real API
+    const result = await analyze(query);
+    
+    if (result) {
+      // Set all specialists to ready
+      setSpecialistStatuses({
+        akira: "ready",
+        maya: "ready",
+        chen: "ready",
+        yuki: "ready",
+      });
+      
+      // Navigate to response
+      setTimeout(() => {
+        navigate("/response");
+      }, 500);
+    } else {
+      // Reset on error
+      setSpecialistStatuses({
+        akira: "idle",
+        maya: "idle",
+        chen: "idle",
+        yuki: "idle",
+      });
+    }
   };
+
+  // Redirect if no context
+  if (!context) {
+    return (
+      <AppLayout>
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
+          <p className="text-muted-foreground mb-4">Nenhum objeto definido.</p>
+          <button
+            onClick={() => navigate("/object")}
+            className="archon-button"
+          >
+            Definir Objeto
+          </button>
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
       <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
         {/* Status Message */}
-        {isAnalyzing && (
-          <div className="mb-8 animate-fade-in-slow">
+        {isLoading && (
+          <div className="mb-8 animate-fade-in-slow flex items-center gap-3">
+            <Loader2 className="w-4 h-4 animate-spin text-primary" />
             <p className="text-sm uppercase tracking-[0.3em] text-primary">
               O ARCHON está a processar…
             </p>
@@ -55,7 +94,7 @@ const CouncilRoom = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Pergunte ao ARCHON…"
-                disabled={isAnalyzing}
+                disabled={isLoading}
                 className="archon-input-large min-h-[120px] resize-none pr-12 disabled:opacity-50"
                 rows={3}
               />
@@ -64,10 +103,17 @@ const CouncilRoom = () => {
             
             <button
               onClick={handleAnalyze}
-              disabled={!query.trim() || isAnalyzing}
-              className="w-full mt-4 archon-button-solid disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled={!query.trim() || isLoading}
+              className="w-full mt-4 archon-button-solid disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {isAnalyzing ? "A Analisar…" : "Analisar"}
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  A Analisar…
+                </>
+              ) : (
+                "Analisar"
+              )}
             </button>
           </div>
         </div>
@@ -90,7 +136,10 @@ const CouncilRoom = () => {
         {/* Context indicator */}
         <div className="mt-12 text-center animate-fade-in-slow animation-delay-600">
           <p className="text-xs text-muted-foreground/50 uppercase tracking-wider">
-            Objeto Atual: Agenda Smart – Instagram
+            Objeto: {context.objeto_em_analise}
+          </p>
+          <p className="text-xs text-muted-foreground/30 mt-1">
+            Objetivo: {context.objetivo_atual} • Horizonte: {context.horizonte}
           </p>
         </div>
       </div>

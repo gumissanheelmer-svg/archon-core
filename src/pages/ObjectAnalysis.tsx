@@ -2,16 +2,30 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Instagram } from "lucide-react";
 import AppLayout from "@/components/layout/AppLayout";
+import { useArchonContext, ArchonContext } from "@/hooks/useArchonContext";
 
 type Horizon = "7days" | "30days" | "90days";
 
+const horizonMap: Record<Horizon, "curto" | "medio" | "longo"> = {
+  "7days": "curto",
+  "30days": "medio",
+  "90days": "longo",
+};
+
 const ObjectAnalysis = () => {
   const navigate = useNavigate();
+  const { setContext } = useArchonContext();
   const [objective, setObjective] = useState("");
   const [horizon, setHorizon] = useState<Horizon>("30days");
 
   const handleSubmit = () => {
     if (objective.trim()) {
+      const ctx: ArchonContext = {
+        objeto_em_analise: "Agenda Smart – Instagram",
+        objetivo_atual: objective.trim(),
+        horizonte: horizonMap[horizon],
+      };
+      setContext(ctx);
       navigate("/council");
     }
   };
