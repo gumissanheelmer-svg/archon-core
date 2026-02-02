@@ -14,6 +14,7 @@ import ArchonResponse from "./pages/ArchonResponse";
 import ActionPlan from "./pages/ActionPlan";
 import Dashboard from "./pages/Dashboard";
 import History from "./pages/History";
+import Memory from "./pages/Memory";
 import Profiles from "./pages/Profiles";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/actions" element={<AuthGuard><ActionPlan /></AuthGuard>} />
               <Route path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
               <Route path="/history" element={<AuthGuard><History /></AuthGuard>} />
+              <Route path="/memory" element={<AuthGuard><Memory /></AuthGuard>} />
               <Route path="/profiles" element={<AuthGuard><Profiles /></AuthGuard>} />
               <Route path="/settings" element={<AuthGuard><Settings /></AuthGuard>} />
               

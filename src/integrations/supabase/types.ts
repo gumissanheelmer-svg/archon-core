@@ -14,6 +14,56 @@ export type Database = {
   }
   public: {
     Tables: {
+      memory_items: {
+        Row: {
+          category: Database["public"]["Enums"]["memory_category"]
+          content: string
+          created_at: string
+          id: string
+          priority: number
+          status: Database["public"]["Enums"]["memory_status"]
+          superseded_by: string | null
+          tenant_id: string
+          updated_at: string
+          user_id: string
+          version: number
+        }
+        Insert: {
+          category?: Database["public"]["Enums"]["memory_category"]
+          content: string
+          created_at?: string
+          id?: string
+          priority?: number
+          status?: Database["public"]["Enums"]["memory_status"]
+          superseded_by?: string | null
+          tenant_id?: string
+          updated_at?: string
+          user_id: string
+          version?: number
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["memory_category"]
+          content?: string
+          created_at?: string
+          id?: string
+          priority?: number
+          status?: Database["public"]["Enums"]["memory_status"]
+          superseded_by?: string | null
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memory_items_superseded_by_fkey"
+            columns: ["superseded_by"]
+            isOneToOne: false
+            referencedRelation: "memory_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       objects: {
         Row: {
           context: string | null
@@ -181,6 +231,13 @@ export type Database = {
     Enums: {
       action_priority: "alta" | "media" | "baixa"
       action_status: "pending" | "in_progress" | "done" | "skipped"
+      memory_category:
+        | "identity"
+        | "rules"
+        | "learnings"
+        | "preferences"
+        | "context"
+      memory_status: "active" | "superseded" | "deleted"
       object_status: "draft" | "active" | "archived"
       session_status: "created" | "processing" | "completed" | "failed"
       time_horizon: "curto" | "medio" | "longo"
@@ -313,6 +370,14 @@ export const Constants = {
     Enums: {
       action_priority: ["alta", "media", "baixa"],
       action_status: ["pending", "in_progress", "done", "skipped"],
+      memory_category: [
+        "identity",
+        "rules",
+        "learnings",
+        "preferences",
+        "context",
+      ],
+      memory_status: ["active", "superseded", "deleted"],
       object_status: ["draft", "active", "archived"],
       session_status: ["created", "processing", "completed", "failed"],
       time_horizon: ["curto", "medio", "longo"],

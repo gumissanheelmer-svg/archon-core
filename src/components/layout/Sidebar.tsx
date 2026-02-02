@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { X, Users, Target, LayoutDashboard, ListChecks, History, UserCircle, Settings } from "lucide-react";
+import { X, Users, Target, LayoutDashboard, ListChecks, History, UserCircle, Settings, Brain } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,6 +12,7 @@ const menuItems = [
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/actions", label: "Planos & Ações", icon: ListChecks },
   { path: "/history", label: "Histórico", icon: History },
+  { path: "/memory", label: "Memória Estratégica", icon: Brain },
   { path: "/profiles", label: "Perfis", icon: UserCircle },
   { path: "/settings", label: "Configurações", icon: Settings },
 ];

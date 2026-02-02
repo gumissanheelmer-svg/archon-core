@@ -22,6 +22,7 @@ interface DecisionRequest {
   objetivo_atual: string;
   horizonte: "curto" | "medio" | "longo";
   contexto_opcional?: string;
+  memoria_estrategica?: string; // Memory brief injected from frontend
 }
 
 interface ActionItem {
@@ -143,7 +144,7 @@ serve(async (req) => {
       );
     }
 
-    const { pergunta, objeto_em_analise, objetivo_atual, horizonte, contexto_opcional } = body;
+    const { pergunta, objeto_em_analise, objetivo_atual, horizonte, contexto_opcional, memoria_estrategica } = body;
 
     // Validate required fields
     if (!pergunta || !objeto_em_analise || !objetivo_atual || !horizonte) {
@@ -178,7 +179,15 @@ serve(async (req) => {
 
 ${contexto_opcional ? `**Contexto Adicional:** ${contexto_opcional}` : ""}
 
----
+${memoria_estrategica ? `---
+
+## MEMÓRIA ESTRATÉGICA DO PROJETO
+
+Use este contexto acumulado para informar suas análises e recomendações:
+
+${memoria_estrategica}
+
+---` : ""}
 
 Processe esta entrada e retorne a análise do Conselho Estratégico.`;
 
