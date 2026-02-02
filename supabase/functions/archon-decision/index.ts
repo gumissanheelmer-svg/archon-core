@@ -6,6 +6,7 @@ import {
   getSecurityHeaders,
   sanitizeOutput,
 } from "../_shared/security.ts";
+import { requireAuth } from "../_shared/auth.ts";
 
 // Rate limit config: 30 requests per 10 minutes
 const RATE_LIMIT_CONFIG = {
@@ -110,14 +111,16 @@ serve(async (req) => {
       return securityCheck.response!;
     }
 
-    // Verify authentication (check for valid JWT)
-    const authHeader = req.headers.get('authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      auditLog('analyze_unauthorized', { ip: securityCheck.ip.substring(0, 8) + '***' });
-      return new Response(
-        JSON.stringify({ error: "Autenticação necessária" }),
-        { status: 401, headers }
-      );
+    // Verify authentication (validate JWT explicitly)
+    const authResult = await requireAuth(req, headers, {
+      authorizedEmail: Deno.env.get("ARCHON_AUTHORIZED_EMAIL") || undefined,
+    });
+    if (!authResult.ok) {
+      auditLog('analyze_unauthorized', {
+        ip: securityCheck.ip.substring(0, 8) + '***',
+        reason: authResult.reason,
+      });
+      return authResult.response;
     }
 
     // Parse and validate body

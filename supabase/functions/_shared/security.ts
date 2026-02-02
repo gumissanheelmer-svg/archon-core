@@ -183,10 +183,44 @@ export function auditLog(
 
 // Security headers
 export function getSecurityHeaders(origin?: string): Record<string, string> {
-  const allowedOrigin = Deno.env.get('ARCHON_ALLOWED_ORIGIN') || '*';
-  
+  const allowedOriginEnv = Deno.env.get('ARCHON_ALLOWED_ORIGIN') || '*';
+
+  const isLovableOrigin = (value: string) => {
+    try {
+      const url = new URL(value);
+      // Only allow https origins from the Lovable platform domains.
+      return (
+        url.protocol === 'https:' &&
+        (url.hostname.endsWith('.lovable.app') || url.hostname.endsWith('.lovableproject.com'))
+      );
+    } catch {
+      return false;
+    }
+  };
+
+  let allowOrigin = '*';
+  if (origin) {
+    if (isLovableOrigin(origin)) {
+      // Allow the current preview/published origin to avoid CORS preflight failures.
+      allowOrigin = origin;
+    } else if (allowedOriginEnv === '*') {
+      allowOrigin = '*';
+    } else {
+      const allowed = allowedOriginEnv
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+
+      allowOrigin = allowed.includes(origin) ? origin : 'null';
+    }
+  } else {
+    // Non-browser clients may not send Origin.
+    allowOrigin = allowedOriginEnv === '*' ? '*' : allowedOriginEnv.split(',')[0] || '*';
+  }
+
   return {
-    'Access-Control-Allow-Origin': origin && allowedOrigin !== '*' ? allowedOrigin : '*',
+    'Access-Control-Allow-Origin': allowOrigin,
+    'Vary': 'Origin',
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'X-Content-Type-Options': 'nosniff',
