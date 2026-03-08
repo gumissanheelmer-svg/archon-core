@@ -17,6 +17,12 @@ import History from "./pages/History";
 import Memory from "./pages/Memory";
 import Profiles from "./pages/Profiles";
 import Settings from "./pages/Settings";
+import WebsiteAudit from "./pages/WebsiteAudit";
+import SocialGrowth from "./pages/SocialGrowth";
+import Funnels from "./pages/Funnels";
+import Persuasion from "./pages/Persuasion";
+import SalesConversion from "./pages/SalesConversion";
+import Connections from "./pages/Connections";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
