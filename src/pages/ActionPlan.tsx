@@ -57,6 +57,12 @@ const ActionPlan = () => {
     baixa: "Baixa",
   };
 
+  const decodeHtmlEntities = (text: string): string => {
+    const textarea = document.createElement("textarea");
+    textarea.innerHTML = text;
+    return textarea.value;
+  };
+
   const statusStyles: Record<ActionStatus, string> = {
     pending: "border-muted-foreground/30 hover:border-primary",
     in_progress: "border-blue-500 bg-blue-500/20",
