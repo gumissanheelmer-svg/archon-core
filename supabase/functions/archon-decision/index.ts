@@ -229,7 +229,7 @@ serve(async (req) => {
 
 **Objetivo Atual:** ${objetivo_atual}
 
-**Horizonte Temporal:** ${horizonte === "curto" ? "Curto prazo (7-14 dias)" : horizonte === "medio" ? "Médio prazo (30-60 dias)" : "Longo prazo (90+ dias)"}
+**Horizonte Temporal:** ${horizonte === "curto" ? "Curto prazo (7-14 dias) — foco em ações táticas imediatas" : horizonte === "medio" ? "Médio prazo (30-60 dias) — foco em estratégia e posicionamento" : "Longo prazo (90+ dias) — foco em visão, moats competitivos e escala"}
 
 ${contexto_opcional ? `**Contexto Adicional:** ${contexto_opcional}` : ""}
 
@@ -237,13 +237,13 @@ ${memoria_estrategica ? `---
 
 ## MEMÓRIA ESTRATÉGICA DO PROJETO
 
-Use este contexto acumulado para informar suas análises e recomendações:
+Contexto acumulado — use para manter consistência e referenciar decisões anteriores:
 
 ${memoria_estrategica}
 
 ---` : ""}
 
-Processe esta entrada e retorne a análise do Conselho Estratégico.`;
+Aplique o framework de raciocínio avançado (Compreensão → Análise → Solução → Recomendação) e retorne a análise do Conselho Estratégico. Use **negrito** para conceitos-chave nas respostas.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -262,37 +262,37 @@ Processe esta entrada e retorne a análise do Conselho Estratégico.`;
             type: "function",
             function: {
               name: "strategic_council_response",
-              description: "Retorna a análise estruturada do Conselho Estratégico ARCHON",
+              description: "Retorna a análise estruturada do Conselho Estratégico ARCHON com raciocínio avançado",
               parameters: {
                 type: "object",
                 properties: {
                   archon_sintese: {
                     type: "string",
-                    description: "Síntese central e decisão definitiva do ARCHON. Curta, clara, autoritária."
+                    description: "Síntese central e decisão definitiva do ARCHON. Identifica o problema real subjacente, apresenta a decisão com justificação estratégica. Use **negrito** para conceitos-chave. 3-6 frases substantivas."
                   },
                   akira_estrategia: {
                     type: "string",
-                    description: "Direção estratégica, prioridades e o que ignorar. Visão 30-90 dias."
+                    description: "Roadmap estratégico priorizado com justificação competitiva. Inclui sequenciamento, timing e riscos de inação. Use **negrito** para prioridades. 3-6 frases substantivas."
                   },
                   maya_conteudo: {
                     type: "string",
-                    description: "Ideias criativas, formatos e ângulos práticos para execução."
+                    description: "Ideias não óbvias com framework de implementação. Cada ideia com 'porquê funciona' e 'como executar'. Use **negrito** para conceitos. 3-6 frases substantivas."
                   },
                   chen_dados: {
                     type: "string",
-                    description: "Métricas a medir, testes a executar, validação lógica."
+                    description: "KPIs exatos, benchmarks, thresholds de decisão e critérios de sucesso/falha. Números-alvo específicos. Use **negrito** para métricas. 3-6 frases substantivas."
                   },
                   yuki_psicologia: {
                     type: "string",
-                    description: "Leitura emocional da audiência, gatilhos e motivações."
+                    description: "Mapa de motivações e barreiras psicológicas. Vieses cognitivos em jogo, gatilhos de decisão e estratégias de activação. Use **negrito** para padrões. 3-6 frases substantivas."
                   },
                   plano_de_acao: {
                     type: "array",
-                    description: "3-5 ações priorizadas para execução imediata",
+                    description: "3-7 ações específicas e executáveis (não genéricas), priorizadas por impacto",
                     items: {
                       type: "object",
                       properties: {
-                        acao: { type: "string", description: "Descrição da ação" },
+                        acao: { type: "string", description: "Ação específica e executável com resultado esperado" },
                         prioridade: { type: "string", enum: ["alta", "media", "baixa"] }
                       },
                       required: ["acao", "prioridade"]
