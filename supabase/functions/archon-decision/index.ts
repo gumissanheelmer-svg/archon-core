@@ -346,13 +346,14 @@ ${memoria_estrategica}
 
 ---` : ""}
 
-Execute o fluxo multi-agente completo:
-1. Analyst Mind: decomponha o problema
-2. Developer Mind + Strategist Mind: processem em paralelo
-3. Execution Mind: sintetize em acções
-4. Canalize os insights para os 5 especialistas de saída
+Execute o fluxo multi-agente completo para o Agenda Smart:
+1. Analyst Mind: analise mercado, concorrência e performance
+2. Growth Mind + Sales Mind: processem em paralelo (conteúdo viral + conversão)
+3. Execution Mind: automatize em plano semanal executável
+4. Ative os módulos: Post Generator, Lead Hunter, Sales Script Generator, Weekly Planner
+5. Canalize os insights para os 5 especialistas de saída
 
-Use **negrito** para conceitos-chave. Respostas de nível consultor sénior.`;
+Use **negrito** para conceitos-chave. Entregue conteúdo PRONTO para usar, scripts PRONTOS para enviar, planos PRONTOS para executar.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
