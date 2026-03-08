@@ -1,46 +1,32 @@
 
 
-# Plano: Corrigir Erro de Token Expirado
+# Plano: Limpar UI - Tornar Persuasivo e Simples
 
-## Problema Identificado
-O código atual em `useSessions.ts` usa o token de autenticação do estado React (`authSession.access_token`), que pode estar desatualizado ou expirado. Isso causa o erro "Failed to fetch" ou 401 Unauthorized.
+## O que muda
 
-## Solução
-Buscar uma sessão fresca diretamente do Supabase antes de cada chamada à API, garantindo que o token seja válido e atualizado automaticamente.
+### 1. Entry Page (`src/pages/Entry.tsx`)
+- Remover o indicador de fundo (linha vertical + ponto no bottom)
+- Tornar o copy mais persuasivo e estrategico:
+  - Subtitle: "Decision Engine" -> "O seu conselho estrategico de elite"
+  - Tagline: mais impactante, tipo "Cada decisao certa comeca com a pergunta certa. O ARCHON analisa, sintetiza e entrega clareza."
+  - CTA: "Iniciar Sessao" -> "Comecar Agora"
 
-## Alteração Necessária
+### 2. ConversationList (`src/components/history/ConversationList.tsx`)
+- Remover icone Sparkles de cada item
+- Remover badge de horizonte (7d/30d/90d)
+- Remover ChevronRight
+- Simplificar: mostrar apenas data, nome do objeto e pergunta de forma limpa
+- Remover texto italico da sintese (muito visual noise)
 
-**Arquivo:** `src/hooks/useSessions.ts`
+### 3. Sala do Conselho (`src/pages/CouncilRoom.tsx`)
+- Remover icone Search do textarea
+- Remover grid de SpecialistCards (os 4 cards idle sao ruido visual)
+- Manter apenas o textarea + botao de Analisar, limpo e centrado
+- Manter indicador de contexto (objeto/horizonte) mas mais discreto
+- Durante analise, mostrar apenas o loader com mensagem, sem cards
 
-**De (código atual):**
-```typescript
-const analyzeQuestion = async (...) => {
-  if (!user || !authSession) return null;
-  // ...
-  Authorization: `Bearer ${authSession.access_token}`,
-```
+### 4. SpecialistCard nao e removido do projeto (usado noutros sitios), apenas deixa de aparecer na CouncilRoom
 
-**Para (código corrigido):**
-```typescript
-const analyzeQuestion = async (...) => {
-  if (!user) return null;
-
-  // Buscar sessão fresca para garantir token válido
-  const { data: { session: freshSession } } = await supabase.auth.getSession();
-  if (!freshSession) {
-    toast({
-      title: "Sessão expirada",
-      description: "Por favor, faça login novamente.",
-      variant: "destructive",
-    });
-    return null;
-  }
-  // ...
-  Authorization: `Bearer ${freshSession.access_token}`,
-```
-
-## Benefícios
-- Token sempre atualizado automaticamente pelo Supabase
-- Mensagem clara quando a sessão expira
-- Elimina erros de "Failed to fetch" causados por tokens inválidos
+## Resultado
+Interface limpa, sem simbolos/icones desnecessarios, foco total na acao. O utilizador ve apenas o essencial: pergunta, botao, resultado.
 
