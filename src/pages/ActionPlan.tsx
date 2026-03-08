@@ -57,6 +57,12 @@ const ActionPlan = () => {
     baixa: "Baixa",
   };
 
+  const decodeHtmlEntities = (text: string): string => {
+    const textarea = document.createElement("textarea");
+    textarea.innerHTML = text;
+    return textarea.value;
+  };
+
   const statusStyles: Record<ActionStatus, string> = {
     pending: "border-muted-foreground/30 hover:border-primary",
     in_progress: "border-blue-500 bg-blue-500/20",
@@ -163,7 +169,7 @@ const ActionPlan = () => {
                   <p className={`text-sm text-foreground ${
                     action.status === "done" ? "line-through" : ""
                   } ${action.status === "skipped" ? "line-through text-muted-foreground" : ""}`}>
-                    {action.action_text}
+                    {decodeHtmlEntities(action.action_text)}
                   </p>
                   <div className="flex items-center gap-2 mt-2 flex-wrap">
                     <span className={`text-xs px-2 py-0.5 rounded border ${priorityStyles[action.priority]}`}>
