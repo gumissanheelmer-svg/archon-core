@@ -4,6 +4,9 @@ project_id = "jciclbzyfpyhnwwemhur"
 enabled = true
 verify_jwt = false
 
+[functions.growth-intelligence]
+verify_jwt = false
+
 [functions.elevenlabs-tts]
 verify_jwt = false
 

@@ -82,7 +82,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
         <div className="absolute bottom-8 left-0 right-0 px-6">
           <div className="text-xs text-muted-foreground/50 uppercase tracking-wider">
-            Decision Engine v1.0
+            Growth Intelligence v2.0
           </div>
         </div>
       </aside>
