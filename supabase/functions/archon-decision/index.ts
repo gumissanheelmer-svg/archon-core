@@ -372,37 +372,37 @@ Use **negrito** para conceitos-chave. Entregue conteúdo PRONTO para usar, scrip
             type: "function",
             function: {
               name: "strategic_council_response",
-              description: "Resposta do sistema multi-agente ARCHON. As 4 mentes internas (Analyst, Developer, Strategist, Execution) já processaram — agora entregue via os 5 especialistas.",
+              description: "Resposta da máquina autônoma ARCHON. As 4 mentes (Analyst, Growth, Sales, Execution) + 4 engines + 4 módulos de automação já processaram. Entregue via os 5 especialistas com conteúdo PRONTO para usar.",
               parameters: {
                 type: "object",
                 properties: {
                   archon_sintese: {
                     type: "string",
-                    description: "Síntese multi-dimensional do ARCHON. Integra insights de TODAS as 4 mentes: identifica o problema real (Analyst), avalia viabilidade técnica (Developer), pondera mercado (Strategist), define execução (Execution). Use **negrito**. 4-8 frases de nível executivo."
+                    description: "Decisão do Growth Director. Integra: inteligência de mercado (Analyst), estratégia de crescimento (Growth), conversão (Sales), execução (Execution). Decisão clara sobre o próximo movimento. Use **negrito**. 4-8 frases de nível C-level."
                   },
                   akira_estrategia: {
                     type: "string",
-                    description: "Roadmap estratégico alimentado por Strategist Mind + Execution Mind. Sequenciamento com timing, lógica competitiva, riscos de inação e armadilhas. Use **negrito**. 4-8 frases substantivas."
+                    description: "Roadmap de crescimento + funis automatizados. Estratégia 30/90 dias com metas numéricas, canais priorizados por ROI, funis step-by-step, sequências de conversão. Use **negrito**. 4-8 frases com frameworks e números."
                   },
                   maya_conteudo: {
                     type: "string",
-                    description: "Ideias criativas não óbvias alimentadas por Strategist Mind + Developer Mind. Cada ideia com 'porquê funciona', 'como executar' e viabilidade técnica. Use **negrito**. 4-8 frases com exemplos concretos."
+                    description: "Conteúdo PRONTO para publicar. Posts completos (hook + corpo + CTA + hashtags), roteiros de vídeo com timing, calendário semanal com horários por plataforma. Use **negrito**. 4-8 frases com conteúdo concreto executável."
                   },
                   chen_dados: {
                     type: "string",
-                    description: "Framework de validação alimentado por Analyst Mind + Developer Mind. KPIs exatos, benchmarks do sector, thresholds de go/no-go, critérios de sucesso/falha com números-alvo. Use **negrito**. 4-8 frases técnicas e objectivas."
+                    description: "Dashboard de métricas e aquisição. KPIs semanais, métricas por plataforma, lead scoring, ROI de campanhas, benchmarks do setor, thresholds de ajuste. Use **negrito**. 4-8 frases com números específicos."
                   },
                   yuki_psicologia: {
                     type: "string",
-                    description: "Análise comportamental alimentada por Analyst Mind + Strategist Mind. Vieses cognitivos em jogo, mapa de motivações/barreiras, gatilhos de decisão e estratégias de activação psicológica. Use **negrito**. 4-8 frases empáticas mas analíticas."
+                    description: "Scripts de vendas e persuasão PRONTOS. Respostas a objeções, gatilhos emocionais, técnicas de fechamento por tipo de lead, sequências de follow-up. Use **negrito**. 4-8 frases com scripts aplicáveis imediatamente."
                   },
                   plano_de_acao: {
                     type: "array",
-                    description: "3-7 acções ultra-específicas geradas pela Execution Mind. Cada acção com resultado esperado mensurável. Priorizadas por impacto × urgência.",
+                    description: "3-7 ações automatizadas com resultado mensurável, prazo e KPI. Geradas pelo Weekly Planner + Post Generator + Lead Hunter + Sales Script Generator.",
                     items: {
                       type: "object",
                       properties: {
-                        acao: { type: "string", description: "Acção específica com resultado esperado (ex: 'Criar landing page com 3 variantes de headline para teste A/B até sexta → meta: 5% conversão')" },
+                        acao: { type: "string", description: "Ação executável sem supervisão (ex: 'Publicar 3 Reels com hook de produtividade no IG às 12h, 18h e 21h → meta: 10K views/reel esta semana')" },
                         prioridade: { type: "string", enum: ["alta", "media", "baixa"] }
                       },
                       required: ["acao", "prioridade"]
