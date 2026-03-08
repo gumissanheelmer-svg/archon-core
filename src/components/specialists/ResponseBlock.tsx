@@ -7,6 +7,44 @@ interface ResponseBlockProps {
   details?: { label: string; value: string }[];
 }
 
+// Decode HTML entities and render markdown-like formatting
+function renderContent(raw: string): string {
+  // Decode HTML entities
+  let text = raw
+    .replace(/&amp;/g, "&")
+    .replace(/&#x2F;/g, "/")
+    .replace(/&#x27;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#(\d+);/g, (_m, code) => String.fromCharCode(Number(code)));
+
+  // Escape any remaining HTML tags for safety
+  text = text.replace(/<(?!br\s*\/?>)/g, "&lt;");
+
+  // Bold: **text**
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+  // Italic: *text* (but not inside bold)
+  text = text.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+
+  // Bullet lists: lines starting with - or •
+  text = text.replace(/^[\-•]\s+(.+)$/gm, '<li>$1</li>');
+  text = text.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul class="list-disc pl-4 my-2 space-y-1">$1</ul>');
+
+  // Numbered lists: lines starting with 1. 2. etc
+  text = text.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+
+  // Newlines to <br/>
+  text = text.replace(/\n/g, "<br/>");
+
+  // Clean up double <br/> after lists
+  text = text.replace(/<\/ul><br\/>/g, '</ul>');
+  text = text.replace(/<\/li><br\/>/g, '</li>');
+
+  return text;
+}
+
 const ResponseBlock = ({ id, type, content, details }: ResponseBlockProps) => {
   const isArchon = type === "archon";
   const specialist = !isArchon ? specialists[type as SpecialistId] : null;
@@ -36,18 +74,10 @@ const ResponseBlock = ({ id, type, content, details }: ResponseBlockProps) => {
         </div>
       </div>
 
-      <p
-        className="text-foreground/90 leading-relaxed mb-4"
+      <div
+        className="text-foreground/90 leading-relaxed mb-4 prose prose-sm max-w-none dark:prose-invert prose-strong:text-foreground prose-li:text-foreground/90"
         dangerouslySetInnerHTML={{
-          __html: content
-            .replace(/&amp;/g, "&")
-            .replace(/&#x2F;/g, "/")
-            .replace(/&#x27;/g, "'")
-            .replace(/&lt;/g, "<")
-            .replace(/&gt;/g, ">")
-            .replace(/&quot;/g, '"')
-            .replace(/&#(\d+);/g, (_m, code) => String.fromCharCode(Number(code)))
-            .replace(/\n/g, "<br/>"),
+          __html: renderContent(content),
         }}
       />
 
