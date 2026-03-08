@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MessageSquare, ChevronRight, Calendar, Loader2, Sparkles } from "lucide-react";
+import { MessageSquare, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import type { SessionStatus } from "@/hooks/useSessions";
@@ -15,12 +15,6 @@ interface SessionPreview {
   created_at: string;
   objects?: { name: string } | null;
 }
-
-const horizonLabels: Record<TimeHorizon, string> = {
-  curto: "7d",
-  medio: "30d",
-  longo: "90d",
-};
 
 const ConversationList = () => {
   const navigate = useNavigate();
@@ -85,7 +79,7 @@ const ConversationList = () => {
   };
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-0.5">
       {sessions.map((session, index) => (
         <button
           key={session.id}
@@ -95,32 +89,16 @@ const ConversationList = () => {
                      animate-fade-in-slow"
           style={{ animationDelay: `${index * 40}ms` }}
         >
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 p-1.5 rounded-md bg-primary/10 text-primary shrink-0">
-              <Sparkles className="w-3 h-3" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] text-muted-foreground/60 font-mono">
-                  {formatDate(session.created_at)}
-                </span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-secondary text-muted-foreground/60 border border-border/30">
-                  {horizonLabels[session.horizon]}
-                </span>
-              </div>
-              <p className="text-xs font-medium text-foreground/90 truncate">
-                {session.objects?.name || "Objeto removido"}
-              </p>
-              <p className="text-[11px] text-muted-foreground/60 truncate mt-0.5">
-                {session.question}
-              </p>
-              {session.archon_sintese && (
-                <p className="text-[10px] text-primary/50 mt-1.5 line-clamp-2 italic leading-relaxed">
-                  {session.archon_sintese.substring(0, 120)}...
-                </p>
-              )}
-            </div>
-            <ChevronRight className="w-3 h-3 text-muted-foreground/30 group-hover:text-primary/60 transition-colors mt-1 shrink-0" />
+          <div className="space-y-1">
+            <span className="text-[10px] text-muted-foreground/50 font-mono">
+              {formatDate(session.created_at)}
+            </span>
+            <p className="text-xs font-medium text-foreground/90 truncate">
+              {session.objects?.name || "Objeto removido"}
+            </p>
+            <p className="text-[11px] text-muted-foreground/60 truncate">
+              {session.question}
+            </p>
           </div>
         </button>
       ))}
