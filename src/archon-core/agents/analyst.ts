@@ -1,10 +1,6 @@
 /**
  * Analyst Mind — Inteligência Competitiva e Performance
- * 
- * Responsável por analisar concorrência, mercado, métricas de campanhas,
- * oportunidades e resultados anteriores. Executa primeiro no fluxo.
- * 
- * A lógica real roda no edge function. Este módulo define tipos e helpers.
+ * Responsável por analisar concorrência, mercado, métricas de campanhas e oportunidades.
  */
 
 export interface MarketAnalysis {
@@ -22,19 +18,31 @@ export interface CampaignMetrics {
   impressions: number;
 }
 
-export interface AnalystOutput {
-  problemDecomposition: string[];
-  marketIntelligence: MarketAnalysis;
-  performanceInsights: string[];
-  classification: "acquisition" | "retention" | "conversion" | "positioning" | "execution";
-}
+export type ProblemClassification = "acquisition" | "retention" | "conversion" | "positioning" | "execution";
 
-/** Classify the type of problem based on keywords */
-export function classifyProblem(question: string): AnalystOutput["classification"] {
-  const q = question.toLowerCase();
-  if (q.includes("lead") || q.includes("cliente") || q.includes("atrair")) return "acquisition";
-  if (q.includes("reter") || q.includes("churn") || q.includes("fideliz")) return "retention";
-  if (q.includes("converter") || q.includes("vend") || q.includes("fechar")) return "conversion";
-  if (q.includes("posicion") || q.includes("marca") || q.includes("diferenc")) return "positioning";
-  return "execution";
+export class AnalystMind {
+  /** Analisa mercado e retorna oportunidades */
+  analyzeMarket(data: any): MarketAnalysis {
+    return {
+      competitors: data.competitors || [],
+      opportunities: data.opportunities || ["Mercado de agendamento em crescimento", "Baixa concorrência em nicho local"],
+      threats: data.threats || ["Grandes players entrando no mercado"],
+      trends: data.trends || ["Automação de atendimento", "Agendamento via WhatsApp"],
+    };
+  }
+
+  /** Analisa resultados de campanhas anteriores */
+  analyzeCampaigns(campaignData: any): string {
+    return `Insights de campanhas: ${JSON.stringify(campaignData)}`;
+  }
+
+  /** Classifica o tipo de problema baseado em palavras-chave */
+  classifyProblem(question: string): ProblemClassification {
+    const q = question.toLowerCase();
+    if (q.includes("lead") || q.includes("cliente") || q.includes("atrair")) return "acquisition";
+    if (q.includes("reter") || q.includes("churn") || q.includes("fideliz")) return "retention";
+    if (q.includes("converter") || q.includes("vend") || q.includes("fechar")) return "conversion";
+    if (q.includes("posicion") || q.includes("marca") || q.includes("diferenc")) return "positioning";
+    return "execution";
+  }
 }
