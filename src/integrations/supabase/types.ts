@@ -14,6 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
+      campaign_results: {
+        Row: {
+          campaign_name: string
+          connection_id: string | null
+          created_at: string
+          id: string
+          learnings: string[] | null
+          metrics: Json
+          platform: string
+          result: string
+          tenant_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          campaign_name: string
+          connection_id?: string | null
+          created_at?: string
+          id?: string
+          learnings?: string[] | null
+          metrics?: Json
+          platform: string
+          result?: string
+          tenant_id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          campaign_name?: string
+          connection_id?: string | null
+          created_at?: string
+          id?: string
+          learnings?: string[] | null
+          metrics?: Json
+          platform?: string
+          result?: string
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_results_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "connections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      connections: {
+        Row: {
+          created_at: string
+          display_name: string
+          id: string
+          identifier: string
+          last_analyzed_at: string | null
+          metadata: Json | null
+          platform: string
+          status: string
+          tenant_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name: string
+          id?: string
+          identifier: string
+          last_analyzed_at?: string | null
+          metadata?: Json | null
+          platform: string
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          id?: string
+          identifier?: string
+          last_analyzed_at?: string | null
+          metadata?: Json | null
+          platform?: string
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       memory_items: {
         Row: {
           category: Database["public"]["Enums"]["memory_category"]
