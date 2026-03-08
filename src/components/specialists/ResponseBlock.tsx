@@ -36,9 +36,20 @@ const ResponseBlock = ({ id, type, content, details }: ResponseBlockProps) => {
         </div>
       </div>
 
-      <p className="text-foreground/90 leading-relaxed mb-4">
-        {content}
-      </p>
+      <p
+        className="text-foreground/90 leading-relaxed mb-4"
+        dangerouslySetInnerHTML={{
+          __html: content
+            .replace(/&amp;/g, "&")
+            .replace(/&#x2F;/g, "/")
+            .replace(/&#x27;/g, "'")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/&quot;/g, '"')
+            .replace(/&#(\d+);/g, (_m, code) => String.fromCharCode(Number(code)))
+            .replace(/\n/g, "<br/>"),
+        }}
+      />
 
       {details && details.length > 0 && (
         <div className="space-y-2 pt-4 border-t border-border">
