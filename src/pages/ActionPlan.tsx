@@ -169,7 +169,7 @@ const ActionPlan = () => {
                   <p className={`text-sm text-foreground ${
                     action.status === "done" ? "line-through" : ""
                   } ${action.status === "skipped" ? "line-through text-muted-foreground" : ""}`}>
-                    {action.action_text}
+                    {decodeHtmlEntities(action.action_text)}
                   </p>
                   <div className="flex items-center gap-2 mt-2 flex-wrap">
                     <span className={`text-xs px-2 py-0.5 rounded border ${priorityStyles[action.priority]}`}>
