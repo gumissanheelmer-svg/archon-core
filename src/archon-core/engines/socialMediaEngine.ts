@@ -1,33 +1,10 @@
 /**
  * Social Media Engine — Conteúdo Viral Automatizado
- * 
- * Gera posts, roteiros de vídeo, calendários e hooks virais
- * otimizados para cada plataforma.
+ * Gera posts, roteiros de vídeo, calendários e hooks virais.
  */
 
-import type { Platform, ContentIdea } from "../agents/growth";
+import type { Platform } from "../agents/growth";
 
-export interface VideoScript {
-  platform: Platform;
-  duration: string;
-  hook: string;          // First 3 seconds
-  development: string;   // Main content
-  cta: string;           // Call to action
-  transitions: string[]; // Visual transitions
-  music: string;         // Suggested audio/trend
-  hashtags: string[];
-}
-
-export interface PostTemplate {
-  platform: Platform;
-  type: "educational" | "promotional" | "viral" | "testimonial" | "behind-scenes";
-  caption: string;
-  hashtags: string[];
-  bestTime: string;
-  format: string;
-}
-
-/** Viral hook templates for scheduling/productivity niche */
 export const VIRAL_HOOKS = [
   "Você ainda perde clientes por falta de organização?",
   "3 coisas que donos de negócio fazem ERRADO na agenda",
@@ -39,7 +16,6 @@ export const VIRAL_HOOKS = [
   "A ferramenta que mudou meu negócio (não é o que você pensa)",
 ];
 
-/** Content pillars for Agenda Smart */
 export const CONTENT_PILLARS = [
   "Produtividade e organização",
   "Gestão de clientes",
@@ -50,3 +26,23 @@ export const CONTENT_PILLARS = [
   "Antes vs Depois",
   "Bastidores",
 ];
+
+export class SocialMediaEngine {
+  /** Gera calendário de conteúdo a partir de ideias */
+  generateContentCalendar(ideas: string[]): Array<{ day: string; content: string }> {
+    return ideas.map((idea, index) => ({
+      day: `Dia ${index + 1}`,
+      content: idea,
+    }));
+  }
+
+  /** Retorna hooks virais disponíveis */
+  getViralHooks(): string[] {
+    return VIRAL_HOOKS;
+  }
+
+  /** Retorna pilares de conteúdo */
+  getContentPillars(): string[] {
+    return CONTENT_PILLARS;
+  }
+}

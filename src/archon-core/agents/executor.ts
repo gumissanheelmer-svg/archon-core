@@ -1,8 +1,6 @@
 /**
  * Execution Mind — Automação e Planeamento Semanal
- * 
- * Transforma estratégias em planos executáveis com tarefas diárias,
- * checklists e KPIs mensuráveis.
+ * Transforma estratégias em planos executáveis com tarefas diárias e KPIs.
  */
 
 export type DayOfWeek = "segunda" | "terca" | "quarta" | "quinta" | "sexta" | "sabado" | "domingo";
@@ -17,19 +15,6 @@ export interface DailyTask {
   priority: TaskPriority;
 }
 
-export interface DailyPlan {
-  day: DayOfWeek;
-  tasks: DailyTask[];
-}
-
-export interface WeeklyPlan {
-  weekOf: string;
-  goals: string[];
-  dailyPlans: DailyPlan[];
-  weeklyKPIs: Record<string, string>;
-}
-
-/** Default weekly structure for Agenda Smart growth */
 export const DEFAULT_WEEKLY_STRUCTURE: Record<DayOfWeek, string[]> = {
   segunda: ["Planejamento semanal", "Criação de conteúdo", "Prospecção de leads"],
   terca: ["Publicação de conteúdo", "Follow-up de leads", "Análise de métricas"],
@@ -39,3 +24,25 @@ export const DEFAULT_WEEKLY_STRUCTURE: Record<DayOfWeek, string[]> = {
   sabado: ["Conteúdo programado", "Community building"],
   domingo: ["Análise de resultados", "Planejamento da próxima semana"],
 };
+
+export class ExecutionMind {
+  /** Cria plano passo a passo a partir de uma estratégia */
+  createPlan(strategy: string): string[] {
+    return [
+      `Passo 1: Analisar contexto e dados disponíveis`,
+      `Passo 2: Implementar ${strategy}`,
+      "Passo 3: Medir resultados com KPIs definidos",
+      "Passo 4: Ajustar estratégias com base nos dados",
+    ];
+  }
+
+  /** Divide plano em tarefas semanais */
+  createWeeklyTasks(plan: string[]): string[] {
+    return plan.map((step, index) => `Tarefa ${index + 1}: ${step}`);
+  }
+
+  /** Gera estrutura semanal padrão */
+  getDefaultWeeklyStructure(): Record<DayOfWeek, string[]> {
+    return { ...DEFAULT_WEEKLY_STRUCTURE };
+  }
+}

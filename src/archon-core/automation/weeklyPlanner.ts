@@ -1,12 +1,16 @@
 /**
  * Weekly Planner — Planos Semanais Automatizados
- * 
- * Transforma estratégias em planos com tarefas diárias,
- * horários e KPIs mensuráveis.
  */
 
-import type { DayOfWeek, DailyTask, WeeklyPlan } from "../agents/executor";
+import type { DayOfWeek, DailyTask } from "../agents/executor";
 import { DEFAULT_WEEKLY_STRUCTURE } from "../agents/executor";
+
+export interface WeeklyPlan {
+  weekOf: string;
+  goals: string[];
+  dailyPlans: Array<{ day: DayOfWeek; tasks: DailyTask[] }>;
+  weeklyKPIs: Record<string, string>;
+}
 
 /** Generate a default weekly plan template */
 export function generateWeeklyTemplate(weekOf: string): WeeklyPlan {
