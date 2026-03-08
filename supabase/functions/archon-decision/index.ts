@@ -286,7 +286,13 @@ ${memoria_estrategica}
 
 ---` : ""}
 
-Aplique o framework de raciocínio avançado (Compreensão → Análise → Solução → Recomendação) e retorne a análise do Conselho Estratégico. Use **negrito** para conceitos-chave nas respostas.`;
+Execute o fluxo multi-agente completo:
+1. Analyst Mind: decomponha o problema
+2. Developer Mind + Strategist Mind: processem em paralelo
+3. Execution Mind: sintetize em acções
+4. Canalize os insights para os 5 especialistas de saída
+
+Use **negrito** para conceitos-chave. Respostas de nível consultor sénior.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -305,37 +311,37 @@ Aplique o framework de raciocínio avançado (Compreensão → Análise → Solu
             type: "function",
             function: {
               name: "strategic_council_response",
-              description: "Retorna a análise estruturada do Conselho Estratégico ARCHON com raciocínio avançado",
+              description: "Resposta do sistema multi-agente ARCHON. As 4 mentes internas (Analyst, Developer, Strategist, Execution) já processaram — agora entregue via os 5 especialistas.",
               parameters: {
                 type: "object",
                 properties: {
                   archon_sintese: {
                     type: "string",
-                    description: "Síntese central e decisão definitiva do ARCHON. Identifica o problema real subjacente, apresenta a decisão com justificação estratégica. Use **negrito** para conceitos-chave. 3-6 frases substantivas."
+                    description: "Síntese multi-dimensional do ARCHON. Integra insights de TODAS as 4 mentes: identifica o problema real (Analyst), avalia viabilidade técnica (Developer), pondera mercado (Strategist), define execução (Execution). Use **negrito**. 4-8 frases de nível executivo."
                   },
                   akira_estrategia: {
                     type: "string",
-                    description: "Roadmap estratégico priorizado com justificação competitiva. Inclui sequenciamento, timing e riscos de inação. Use **negrito** para prioridades. 3-6 frases substantivas."
+                    description: "Roadmap estratégico alimentado por Strategist Mind + Execution Mind. Sequenciamento com timing, lógica competitiva, riscos de inação e armadilhas. Use **negrito**. 4-8 frases substantivas."
                   },
                   maya_conteudo: {
                     type: "string",
-                    description: "Ideias não óbvias com framework de implementação. Cada ideia com 'porquê funciona' e 'como executar'. Use **negrito** para conceitos. 3-6 frases substantivas."
+                    description: "Ideias criativas não óbvias alimentadas por Strategist Mind + Developer Mind. Cada ideia com 'porquê funciona', 'como executar' e viabilidade técnica. Use **negrito**. 4-8 frases com exemplos concretos."
                   },
                   chen_dados: {
                     type: "string",
-                    description: "KPIs exatos, benchmarks, thresholds de decisão e critérios de sucesso/falha. Números-alvo específicos. Use **negrito** para métricas. 3-6 frases substantivas."
+                    description: "Framework de validação alimentado por Analyst Mind + Developer Mind. KPIs exatos, benchmarks do sector, thresholds de go/no-go, critérios de sucesso/falha com números-alvo. Use **negrito**. 4-8 frases técnicas e objectivas."
                   },
                   yuki_psicologia: {
                     type: "string",
-                    description: "Mapa de motivações e barreiras psicológicas. Vieses cognitivos em jogo, gatilhos de decisão e estratégias de activação. Use **negrito** para padrões. 3-6 frases substantivas."
+                    description: "Análise comportamental alimentada por Analyst Mind + Strategist Mind. Vieses cognitivos em jogo, mapa de motivações/barreiras, gatilhos de decisão e estratégias de activação psicológica. Use **negrito**. 4-8 frases empáticas mas analíticas."
                   },
                   plano_de_acao: {
                     type: "array",
-                    description: "3-7 ações específicas e executáveis (não genéricas), priorizadas por impacto",
+                    description: "3-7 acções ultra-específicas geradas pela Execution Mind. Cada acção com resultado esperado mensurável. Priorizadas por impacto × urgência.",
                     items: {
                       type: "object",
                       properties: {
-                        acao: { type: "string", description: "Ação específica e executável com resultado esperado" },
+                        acao: { type: "string", description: "Acção específica com resultado esperado (ex: 'Criar landing page com 3 variantes de headline para teste A/B até sexta → meta: 5% conversão')" },
                         prioridade: { type: "string", enum: ["alta", "media", "baixa"] }
                       },
                       required: ["acao", "prioridade"]
