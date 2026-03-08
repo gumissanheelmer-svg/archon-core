@@ -17,6 +17,12 @@ import History from "./pages/History";
 import Memory from "./pages/Memory";
 import Profiles from "./pages/Profiles";
 import Settings from "./pages/Settings";
+import WebsiteAudit from "./pages/WebsiteAudit";
+import SocialGrowth from "./pages/SocialGrowth";
+import Funnels from "./pages/Funnels";
+import Persuasion from "./pages/Persuasion";
+import SalesConversion from "./pages/SalesConversion";
+import Connections from "./pages/Connections";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +50,12 @@ const App = () => (
               <Route path="/memory" element={<AuthGuard><Memory /></AuthGuard>} />
               <Route path="/profiles" element={<AuthGuard><Profiles /></AuthGuard>} />
               <Route path="/settings" element={<AuthGuard><Settings /></AuthGuard>} />
+              <Route path="/website-audit" element={<AuthGuard><WebsiteAudit /></AuthGuard>} />
+              <Route path="/social-growth" element={<AuthGuard><SocialGrowth /></AuthGuard>} />
+              <Route path="/funnels" element={<AuthGuard><Funnels /></AuthGuard>} />
+              <Route path="/persuasion" element={<AuthGuard><Persuasion /></AuthGuard>} />
+              <Route path="/sales-conversion" element={<AuthGuard><SalesConversion /></AuthGuard>} />
+              <Route path="/connections" element={<AuthGuard><Connections /></AuthGuard>} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
