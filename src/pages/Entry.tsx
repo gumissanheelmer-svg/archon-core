@@ -73,12 +73,12 @@ const Entry = () => {
           
           {/* Subtitle */}
           <p className="archon-subtitle mb-16 animate-fade-in-slow animation-delay-200">
-            Decision Engine
+            O seu conselho estratégico de elite
           </p>
 
           {/* Tagline */}
           <p className="text-muted-foreground text-sm md:text-base max-w-md mx-auto mb-12 animate-fade-in-slow animation-delay-400 leading-relaxed">
-            Defina o objeto. O ARCHON fará o resto.
+            Cada decisão certa começa com a pergunta certa. O ARCHON analisa, sintetiza e entrega clareza.
           </p>
 
           {/* CTA Button */}
@@ -86,14 +86,8 @@ const Entry = () => {
             onClick={() => navigate("/object")}
             className="archon-button animate-fade-in-slow animation-delay-600"
           >
-            Iniciar Sessão
+            Começar Agora
           </button>
-        </div>
-
-        {/* Bottom indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in-slow animation-delay-800">
-          <div className="w-px h-8 bg-gradient-to-b from-transparent to-muted-foreground/30" />
-          <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/30" />
         </div>
       </div>
     </div>
