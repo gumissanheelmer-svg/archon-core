@@ -91,7 +91,7 @@ const Settings = () => {
           {/* Version */}
           <div className="mt-12 text-center animate-fade-in-slow animation-delay-500">
             <p className="text-xs text-muted-foreground/50">
-              ARCHON Decision Engine v1.0.0
+              ARCHON Diretor de Crescimento v4.0
             </p>
           </div>
         </div>

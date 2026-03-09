@@ -82,7 +82,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
         <div className="absolute bottom-8 left-0 right-0 px-6">
           <div className="text-xs text-muted-foreground/40 uppercase tracking-wider">
-            Growth Director AI v4.0
+            Diretor de Crescimento IA v4.0
           </div>
         </div>
       </aside>

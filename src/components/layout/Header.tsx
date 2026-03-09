@@ -25,7 +25,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
             ARCHON
           </span>
           <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-mono">
-            Growth
+            Crescimento
           </span>
         </div>
         

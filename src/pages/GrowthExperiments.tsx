@@ -23,35 +23,35 @@ const GrowthExperiments = () => {
     <AppLayout>
       <div className="min-h-screen px-6 py-20 max-w-5xl mx-auto">
         <div className="mb-10 animate-fade-in-slow">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Experimentation</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Experimentação</p>
           <h1 className="text-2xl font-semibold text-foreground flex items-center gap-3">
             <Beaker className="w-6 h-6 text-primary" />
-            Growth Experiments
+            Experiências de Crescimento
           </h1>
           <p className="text-sm text-muted-foreground mt-2">
-            Generate and track marketing experiments with ICE scoring to grow Agenda Smart.
+            Gere e acompanhe experiências de marketing com pontuação ICE para crescer o Agenda Smart.
           </p>
         </div>
 
         <div className="archon-card-elevated p-6 mb-8 animate-fade-in-slow animation-delay-200">
           <div className="space-y-4">
             <div>
-              <label className="text-xs uppercase tracking-widest text-muted-foreground mb-2 block">Growth Objective</label>
+              <label className="text-xs uppercase tracking-widest text-muted-foreground mb-2 block">Objetivo de Crescimento</label>
               <input
                 type="text"
                 value={objective}
                 onChange={(e) => setObjective(e.target.value)}
-                placeholder="e.g., Acquire 50 new barbershops in 30 days"
+                placeholder="ex: Adquirir 50 novas barbearias em 30 dias"
                 className="archon-input"
                 disabled={loading}
               />
             </div>
             <div>
-              <label className="text-xs uppercase tracking-widest text-muted-foreground mb-2 block">Current Context</label>
+              <label className="text-xs uppercase tracking-widest text-muted-foreground mb-2 block">Contexto Atual</label>
               <textarea
                 value={context}
                 onChange={(e) => setContext(e.target.value)}
-                placeholder="Current channels, budget, team size, past results..."
+                placeholder="Canais atuais, orçamento, tamanho da equipa, resultados anteriores..."
                 className="archon-input min-h-[100px] resize-none"
                 disabled={loading}
                 maxLength={4000}
@@ -63,9 +63,9 @@ const GrowthExperiments = () => {
               className="archon-button-solid w-full flex items-center justify-center gap-2 disabled:opacity-40"
             >
               {loading ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Generating experiments...</>
+                <><Loader2 className="w-4 h-4 animate-spin" /> A gerar experiências...</>
               ) : (
-                <><Beaker className="w-4 h-4" /> Generate Growth Experiments</>
+                <><Beaker className="w-4 h-4" /> Gerar Experiências de Crescimento</>
               )}
             </button>
           </div>
@@ -73,17 +73,15 @@ const GrowthExperiments = () => {
 
         {result && (
           <div className="space-y-6 animate-fade-in-slow">
-            {/* Summary */}
             <div className="archon-card-elevated p-6 border-l-2 border-l-primary">
-              <h3 className="text-xs uppercase tracking-widest text-primary mb-3">Strategy Summary</h3>
+              <h3 className="text-xs uppercase tracking-widest text-primary mb-3">Resumo da Estratégia</h3>
               <p className="text-foreground leading-relaxed">{result.summary}</p>
             </div>
 
-            {/* Recommended Order */}
             {result.recommended_order?.length > 0 && (
               <div className="archon-card p-6">
                 <h3 className="text-xs uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
-                  <Zap className="w-3.5 h-3.5" /> Recommended Execution Order
+                  <Zap className="w-3.5 h-3.5" /> Ordem de Execução Recomendada
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {result.recommended_order.map((name: string, i: number) => (
@@ -97,7 +95,6 @@ const GrowthExperiments = () => {
               </div>
             )}
 
-            {/* Experiments */}
             {result.experiments?.map((exp: any, i: number) => (
               <div key={i} className="archon-card p-6">
                 <div className="flex items-start justify-between mb-4">
@@ -123,10 +120,9 @@ const GrowthExperiments = () => {
                   )}
                 </div>
 
-                {/* Steps */}
                 {exp.steps?.length > 0 && (
                   <div className="mb-4">
-                    <h4 className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Execution Steps</h4>
+                    <h4 className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Passos de Execução</h4>
                     <div className="space-y-1.5">
                       {exp.steps.map((step: string, j: number) => (
                         <div key={j} className="flex items-start gap-2 text-sm">
@@ -138,12 +134,11 @@ const GrowthExperiments = () => {
                   </div>
                 )}
 
-                {/* Metrics & Timeline */}
                 <div className="flex flex-wrap gap-4 pt-3 border-t border-border">
                   {exp.success_metrics?.length > 0 && (
                     <div className="flex-1 min-w-[200px]">
                       <h4 className="text-xs text-muted-foreground mb-1 flex items-center gap-1">
-                        <BarChart3 className="w-3 h-3" /> Success Metrics
+                        <BarChart3 className="w-3 h-3" /> Métricas de Sucesso
                       </h4>
                       <div className="flex flex-wrap gap-1">
                         {exp.success_metrics.map((m: string, j: number) => (
@@ -154,13 +149,13 @@ const GrowthExperiments = () => {
                   )}
                   <div className="flex items-center gap-3 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {exp.timeline}</span>
-                    {exp.budget && <span>Budget: {exp.budget}</span>}
+                    {exp.budget && <span>Orçamento: {exp.budget}</span>}
                   </div>
                 </div>
 
                 {exp.expected_result && (
                   <div className="mt-3 pt-3 border-t border-border/50">
-                    <p className="text-xs text-primary">Expected: {exp.expected_result}</p>
+                    <p className="text-xs text-primary">Resultado esperado: {exp.expected_result}</p>
                   </div>
                 )}
               </div>

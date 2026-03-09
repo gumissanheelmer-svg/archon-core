@@ -129,7 +129,7 @@ const Insights = () => {
         {/* AI Insights */}
         <div className="animate-fade-in-slow animation-delay-500">
           <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4 flex items-center gap-2">
-            <Lightbulb className="w-3.5 h-3.5 text-primary" /> AI Insights
+            <Lightbulb className="w-3.5 h-3.5 text-primary" /> Insights da IA
           </h3>
           <div className="space-y-3">
             {insights.map((ins, i) => (

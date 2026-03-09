@@ -18,7 +18,7 @@ const Funnels = () => {
         <div className="mb-12 animate-fade-in-slow">
           <h1 className="text-2xl font-semibold tracking-tight mb-2 flex items-center gap-3">
             <Filter className="w-6 h-6 text-primary" />
-            Funnel Engine
+            Motor de Funis
           </h1>
           <p className="text-sm text-muted-foreground">Gere funis de vendas completos para Instagram, TikTok, Google Maps e WhatsApp.</p>
         </div>

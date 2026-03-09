@@ -56,7 +56,7 @@ const GrowthStrategy = () => {
               disabled={!objective.trim() || loading}
               className="archon-button-solid w-full flex items-center justify-center gap-2 disabled:opacity-40"
             >
-              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> A Gerar Estratégia…</> : "Gerar Growth Strategy"}
+              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> A Gerar Estratégia…</> : "Gerar Estratégia de Crescimento"}
             </button>
           </div>
         </div>

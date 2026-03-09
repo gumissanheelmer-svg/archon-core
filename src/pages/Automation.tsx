@@ -32,7 +32,7 @@ const Automation = () => {
       runs: 8,
     },
     {
-      name: "Lead Scoring Update",
+      name: "Atualização de Pontuação de Leads",
       description: "Atualiza a pontuação de leads com base nas interações recentes.",
       status: "active",
       lastRun: "Há 6 horas",
