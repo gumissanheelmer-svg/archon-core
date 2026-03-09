@@ -39,7 +39,7 @@ const Insights = () => {
     <AppLayout>
       <div className="min-h-screen px-6 py-20 max-w-5xl mx-auto">
         <div className="mb-10 animate-fade-in-slow">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Analytics</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Análise</p>
           <h1 className="text-2xl font-semibold text-foreground flex items-center gap-3">
             <BarChart3 className="w-6 h-6 text-primary" />
             Insights
