@@ -25,7 +25,7 @@ const Automation = () => {
       runs: 6,
     },
     {
-      name: "Content Calendar Generator",
+      name: "Gerador de Calendário de Conteúdo",
       description: "Gera calendário de conteúdo semanal baseado nas métricas de engagement.",
       status: "active",
       lastRun: "Há 1 dia",
