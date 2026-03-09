@@ -8,21 +8,17 @@ import { ArchonProvider } from "@/hooks/useArchonContext";
 import AuthGuard from "@/components/auth/AuthGuard";
 import Login from "./pages/Login";
 import Entry from "./pages/Entry";
-import ObjectAnalysis from "./pages/ObjectAnalysis";
-import CouncilRoom from "./pages/CouncilRoom";
-import ArchonResponse from "./pages/ArchonResponse";
-import ActionPlan from "./pages/ActionPlan";
 import Dashboard from "./pages/Dashboard";
-import History from "./pages/History";
-import Memory from "./pages/Memory";
-import Profiles from "./pages/Profiles";
-import Settings from "./pages/Settings";
-import WebsiteAudit from "./pages/WebsiteAudit";
-import SocialGrowth from "./pages/SocialGrowth";
+import GrowthStrategy from "./pages/GrowthStrategy";
 import Funnels from "./pages/Funnels";
-import Persuasion from "./pages/Persuasion";
-import SalesConversion from "./pages/SalesConversion";
+import LeadIntelligence from "./pages/LeadIntelligence";
+import ContentEngine from "./pages/ContentEngine";
+import WebsiteAudit from "./pages/WebsiteAudit";
 import Connections from "./pages/Connections";
+import Automation from "./pages/Automation";
+import Memory from "./pages/Memory";
+import Insights from "./pages/Insights";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,28 +32,21 @@ const App = () => (
         <AuthProvider>
           <ArchonProvider>
             <Routes>
-              {/* Public route - Login */}
               <Route path="/login" element={<Login />} />
               
-              {/* Protected routes */}
               <Route path="/" element={<AuthGuard><Entry /></AuthGuard>} />
-              <Route path="/object" element={<AuthGuard><ObjectAnalysis /></AuthGuard>} />
-              <Route path="/council" element={<AuthGuard><CouncilRoom /></AuthGuard>} />
-              <Route path="/response" element={<AuthGuard><ArchonResponse /></AuthGuard>} />
-              <Route path="/actions" element={<AuthGuard><ActionPlan /></AuthGuard>} />
               <Route path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
-              <Route path="/history" element={<AuthGuard><History /></AuthGuard>} />
-              <Route path="/memory" element={<AuthGuard><Memory /></AuthGuard>} />
-              <Route path="/profiles" element={<AuthGuard><Profiles /></AuthGuard>} />
-              <Route path="/settings" element={<AuthGuard><Settings /></AuthGuard>} />
-              <Route path="/website-audit" element={<AuthGuard><WebsiteAudit /></AuthGuard>} />
-              <Route path="/social-growth" element={<AuthGuard><SocialGrowth /></AuthGuard>} />
+              <Route path="/growth-strategy" element={<AuthGuard><GrowthStrategy /></AuthGuard>} />
               <Route path="/funnels" element={<AuthGuard><Funnels /></AuthGuard>} />
-              <Route path="/persuasion" element={<AuthGuard><Persuasion /></AuthGuard>} />
-              <Route path="/sales-conversion" element={<AuthGuard><SalesConversion /></AuthGuard>} />
+              <Route path="/lead-intelligence" element={<AuthGuard><LeadIntelligence /></AuthGuard>} />
+              <Route path="/content-engine" element={<AuthGuard><ContentEngine /></AuthGuard>} />
+              <Route path="/website-audit" element={<AuthGuard><WebsiteAudit /></AuthGuard>} />
               <Route path="/connections" element={<AuthGuard><Connections /></AuthGuard>} />
+              <Route path="/automation" element={<AuthGuard><Automation /></AuthGuard>} />
+              <Route path="/memory" element={<AuthGuard><Memory /></AuthGuard>} />
+              <Route path="/insights" element={<AuthGuard><Insights /></AuthGuard>} />
+              <Route path="/settings" element={<AuthGuard><Settings /></AuthGuard>} />
               
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ArchonProvider>
