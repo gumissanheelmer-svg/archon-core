@@ -7,18 +7,18 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/lead-discovery", label: "Lead Discovery", icon: Search },
-  { path: "/lead-intelligence", label: "Lead Intelligence", icon: Users },
-  { path: "/sales-conversion", label: "Sales Assistant", icon: MessageCircle },
-  { path: "/funnels", label: "Sales Funnels", icon: Filter },
-  { path: "/content-engine", label: "Content Engine", icon: PenTool },
-  { path: "/website-audit", label: "Website Audit", icon: Globe },
-  { path: "/growth-experiments", label: "Growth Experiments", icon: Beaker },
-  { path: "/growth-strategy", label: "Growth Strategy", icon: Rocket },
-  { path: "/connections", label: "Connections", icon: Link2 },
-  { path: "/automation", label: "Automation", icon: Zap },
-  { path: "/memory", label: "Memory", icon: Brain },
+  { path: "/dashboard", label: "Painel", icon: LayoutDashboard },
+  { path: "/lead-discovery", label: "Descoberta de Leads", icon: Search },
+  { path: "/lead-intelligence", label: "Inteligência de Leads", icon: Users },
+  { path: "/sales-conversion", label: "Assistente de Vendas", icon: MessageCircle },
+  { path: "/funnels", label: "Funis de Vendas", icon: Filter },
+  { path: "/content-engine", label: "Motor de Conteúdo", icon: PenTool },
+  { path: "/website-audit", label: "Auditoria de Website", icon: Globe },
+  { path: "/growth-experiments", label: "Experiências de Crescimento", icon: Beaker },
+  { path: "/growth-strategy", label: "Estratégia de Crescimento", icon: Rocket },
+  { path: "/connections", label: "Conexões", icon: Link2 },
+  { path: "/automation", label: "Automação", icon: Zap },
+  { path: "/memory", label: "Memória", icon: Brain },
   { path: "/insights", label: "Insights", icon: BarChart3 },
 ];
 
@@ -50,7 +50,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           <div className="flex items-center gap-2.5">
             <div className="w-2 h-2 rounded-full bg-primary" />
             <span className="text-xs uppercase tracking-[0.2em] text-sidebar-foreground font-medium">
-              ARCHON — Growth Director
+              ARCHON — Diretor de Crescimento
             </span>
           </div>
           <button
@@ -82,7 +82,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
         <div className="absolute bottom-8 left-0 right-0 px-6">
           <div className="text-xs text-muted-foreground/40 uppercase tracking-wider">
-            Growth Director AI v4.0
+            Diretor de Crescimento IA v4.0
           </div>
         </div>
       </aside>

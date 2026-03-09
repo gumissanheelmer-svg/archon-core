@@ -30,13 +30,13 @@ const LeadDiscovery = () => {
     <AppLayout>
       <div className="min-h-screen px-6 py-20 max-w-5xl mx-auto">
         <div className="mb-10 animate-fade-in-slow">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Discovery Engine</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Motor de Descoberta</p>
           <h1 className="text-2xl font-semibold text-foreground flex items-center gap-3">
             <Search className="w-6 h-6 text-primary" />
-            Lead Discovery
+            Descoberta de Leads
           </h1>
           <p className="text-sm text-muted-foreground mt-2">
-            Scan Google Maps, Instagram, TikTok & Facebook to discover barbershop leads for Agenda Smart.
+            Procure no Google Maps, Instagram, TikTok e Facebook para descobrir leads de barbearias para o Agenda Smart.
           </p>
         </div>
 
@@ -45,25 +45,25 @@ const LeadDiscovery = () => {
           <div className="space-y-4">
             <div>
               <label className="text-xs uppercase tracking-widest text-muted-foreground mb-2 block">
-                Target Location / Market
+                Localização / Mercado Alvo
               </label>
               <input
                 type="text"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                placeholder="e.g., São Paulo, Brasil / Porto, Portugal / New York, USA"
+                placeholder="ex: São Paulo, Brasil / Porto, Portugal / Nova Iorque, EUA"
                 className="archon-input"
                 disabled={loading}
               />
             </div>
             <div>
               <label className="text-xs uppercase tracking-widest text-muted-foreground mb-2 block">
-                Search Context (optional)
+                Contexto da Pesquisa (opcional)
               </label>
               <textarea
                 value={context}
                 onChange={(e) => setContext(e.target.value)}
-                placeholder="e.g., Focus on barbershops with 2+ chairs, no online booking system, active on Instagram..."
+                placeholder="ex: Focar em barbearias com 2+ cadeiras, sem sistema de agendamento online, ativas no Instagram..."
                 className="archon-input min-h-[80px] resize-none"
                 disabled={loading}
                 maxLength={4000}
@@ -75,9 +75,9 @@ const LeadDiscovery = () => {
               className="archon-button-solid w-full flex items-center justify-center gap-2 disabled:opacity-40"
             >
               {loading ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Scanning platforms...</>
+                <><Loader2 className="w-4 h-4 animate-spin" /> A procurar nas plataformas...</>
               ) : (
-                <><Search className="w-4 h-4" /> Discover Barbershop Leads</>
+                <><Search className="w-4 h-4" /> Descobrir Leads de Barbearias</>
               )}
             </button>
           </div>
@@ -88,7 +88,7 @@ const LeadDiscovery = () => {
           <div className="space-y-6 animate-fade-in-slow">
             {/* Summary */}
             <div className="archon-card-elevated p-6 border-l-2 border-l-primary">
-              <h3 className="text-xs uppercase tracking-widest text-primary mb-3">Discovery Summary</h3>
+              <h3 className="text-xs uppercase tracking-widest text-primary mb-3">Resumo da Descoberta</h3>
               <p className="text-foreground leading-relaxed">{result.summary}</p>
             </div>
 
@@ -96,10 +96,10 @@ const LeadDiscovery = () => {
             {result.market_estimate && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { label: "Total Businesses", value: result.market_estimate.total_businesses },
-                  { label: "Addressable Market", value: result.market_estimate.addressable_market },
-                  { label: "Penetration Rate", value: result.market_estimate.penetration_rate || "N/A" },
-                  { label: "Revenue Potential", value: result.market_estimate.revenue_potential || "N/A" },
+                  { label: "Total de Negócios", value: result.market_estimate.total_businesses },
+                  { label: "Mercado Endereçável", value: result.market_estimate.addressable_market },
+                  { label: "Taxa de Penetração", value: result.market_estimate.penetration_rate || "N/A" },
+                  { label: "Potencial de Receita", value: result.market_estimate.revenue_potential || "N/A" },
                 ].map((m, i) => (
                   <div key={i} className="archon-card p-4 text-center">
                     <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{m.label}</p>
@@ -114,7 +114,7 @@ const LeadDiscovery = () => {
               <div className="archon-card p-6">
                 <h3 className="text-xs uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
                   <Users className="w-3.5 h-3.5" />
-                  Discovered Leads ({result.leads.length})
+                  Leads Descobertos ({result.leads.length})
                 </h3>
                 <div className="space-y-3">
                   {result.leads.map((lead: any, i: number) => (
@@ -123,17 +123,17 @@ const LeadDiscovery = () => {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <h4 className="text-foreground font-medium text-sm">{lead.name}</h4>
-                            <span className="text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded">{lead.category || "Barbershop"}</span>
+                            <span className="text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded">{lead.category || "Barbearia"}</span>
                           </div>
                           <div className="flex items-center gap-3 text-xs text-muted-foreground">
                             <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {lead.location}</span>
                             <span className="flex items-center gap-1">📱 {lead.platform}</span>
-                            {lead.estimated_employees && <span>{lead.estimated_employees} employees</span>}
+                            {lead.estimated_employees && <span>{lead.estimated_employees} funcionários</span>}
                           </div>
                         </div>
                         <div className="text-right">
                           <div className={`text-lg font-bold font-mono ${scoreColor(lead.score)}`}>{lead.score}</div>
-                          <div className="text-[10px] text-muted-foreground uppercase">Score</div>
+                          <div className="text-[10px] text-muted-foreground uppercase">Pontuação</div>
                         </div>
                       </div>
                       <p className="text-sm text-muted-foreground mt-2">{lead.reason}</p>
@@ -154,7 +154,7 @@ const LeadDiscovery = () => {
             {result.channels?.length > 0 && (
               <div className="archon-card p-6">
                 <h3 className="text-xs uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
-                  <TrendingUp className="w-3.5 h-3.5" /> Discovery Channels
+                  <TrendingUp className="w-3.5 h-3.5" /> Canais de Descoberta
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {result.channels.map((ch: any, i: number) => (
@@ -165,7 +165,7 @@ const LeadDiscovery = () => {
                           ch.difficulty === "easy" ? "bg-primary/20 text-primary" :
                           ch.difficulty === "medium" ? "bg-accent/20 text-accent-foreground" :
                           "bg-destructive/20 text-destructive"
-                        }`}>{ch.difficulty}</span>
+                        }`}>{ch.difficulty === "easy" ? "fácil" : ch.difficulty === "medium" ? "médio" : "difícil"}</span>
                       </div>
                       <p className="text-sm text-muted-foreground mb-1">{ch.strategy}</p>
                       <span className="text-xs text-primary font-mono">~{ch.estimated_leads} leads</span>
@@ -179,7 +179,7 @@ const LeadDiscovery = () => {
             {result.approach_strategies?.length > 0 && (
               <div className="archon-card p-6">
                 <h3 className="text-xs uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
-                  <MessageCircle className="w-3.5 h-3.5" /> Approach Templates
+                  <MessageCircle className="w-3.5 h-3.5" /> Modelos de Abordagem
                 </h3>
                 <div className="space-y-3">
                   {result.approach_strategies.map((s: any, i: number) => (

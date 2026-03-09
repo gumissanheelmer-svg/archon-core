@@ -17,10 +17,10 @@ const LeadIntelligence = () => {
     <AppLayout>
       <div className="min-h-screen px-6 py-20 max-w-4xl mx-auto">
         <div className="mb-10 animate-fade-in-slow">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Intelligence</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Inteligência</p>
           <h1 className="text-2xl font-semibold text-foreground flex items-center gap-3">
             <Users className="w-6 h-6 text-primary" />
-            Lead Intelligence
+            Inteligência de Leads
           </h1>
           <p className="text-sm text-muted-foreground mt-2">
             Analise conversas com leads e receba a resposta ideal para fechar a venda.

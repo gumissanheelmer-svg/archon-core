@@ -25,59 +25,59 @@ const Dashboard = () => {
   ];
 
   const metrics = [
-    { label: "Barbershops Discovered", value: "347", change: "+42", icon: Search },
-    { label: "Active Leads", value: "89", change: "+18", icon: Users },
-    { label: "Conversion Rate", value: "4.2%", change: "+0.8%", icon: Target },
-    { label: "Revenue Pipeline", value: "€12.4K", change: "+31%", icon: TrendingUp },
+    { label: "Barbearias Descobertas", value: "347", change: "+42", icon: Search },
+    { label: "Leads Ativos", value: "89", change: "+18", icon: Users },
+    { label: "Taxa de Conversão", value: "4.2%", change: "+0.8%", icon: Target },
+    { label: "Pipeline de Receita", value: "€12.4K", change: "+31%", icon: TrendingUp },
   ];
 
   const aiRecommendations = [
     {
-      module: "DISCOVERY",
+      module: "DESCOBERTA",
       priority: "high",
-      message: "23 barbershops in Porto without online scheduling detected. Launch Google Maps outreach campaign.",
-      action: "Discover Leads",
+      message: "23 barbearias no Porto sem agendamento online detetadas. Lançar campanha de outreach no Google Maps.",
+      action: "Descobrir Leads",
       path: "/lead-discovery",
     },
     {
-      module: "SALES",
+      module: "VENDAS",
       priority: "high",
-      message: "5 hot leads haven't received follow-up in 48h. Use the Sales Assistant to craft closing messages.",
-      action: "Sales Assistant",
+      message: "5 leads quentes não receberam follow-up em 48h. Use o Assistente de Vendas para criar mensagens de fecho.",
+      action: "Assistente de Vendas",
       path: "/sales-conversion",
     },
     {
-      module: "CONTENT",
+      module: "CONTEÚDO",
       priority: "medium",
-      message: "TikTok barbershop content is trending. Generate viral scripts targeting barber transformations.",
-      action: "Content Engine",
+      message: "Conteúdo de barbearias no TikTok está em tendência. Gerar scripts virais focados em transformações.",
+      action: "Motor de Conteúdo",
       path: "/content-engine",
     },
     {
-      module: "EXPERIMENT",
+      module: "EXPERIÊNCIA",
       priority: "medium",
-      message: "WhatsApp funnel has 8.2% conversion. Run an experiment doubling broadcast frequency.",
-      action: "Experiments",
+      message: "Funil WhatsApp tem 8.2% de conversão. Executar experiência dobrando a frequência de broadcast.",
+      action: "Experiências",
       path: "/growth-experiments",
     },
     {
-      module: "AUDIT",
+      module: "AUDITORIA",
       priority: "low",
-      message: "Agenda Smart website CTA is below the fold. Move it up for estimated +25% conversion.",
-      action: "Website Audit",
+      message: "CTA do site Agenda Smart está abaixo do fold. Movê-lo para cima para estimativa de +25% conversão.",
+      action: "Auditoria de Website",
       path: "/website-audit",
     },
   ];
 
   const modules = [
-    { label: "Lead Discovery", icon: Search, path: "/lead-discovery", desc: "Scan for barbershops" },
-    { label: "Sales Assistant", icon: MessageCircle, path: "/sales-conversion", desc: "Close deals faster" },
-    { label: "Content Engine", icon: PenTool, path: "/content-engine", desc: "Viral content ideas" },
-    { label: "Sales Funnels", icon: Filter, path: "/funnels", desc: "Multi-platform funnels" },
-    { label: "Website Audit", icon: Globe, path: "/website-audit", desc: "Conversion analysis" },
-    { label: "Experiments", icon: Beaker, path: "/growth-experiments", desc: "Test & learn" },
-    { label: "Connections", icon: Link2, path: "/connections", desc: "Platform links" },
-    { label: "Insights", icon: BarChart3, path: "/insights", desc: "Performance data" },
+    { label: "Descoberta de Leads", icon: Search, path: "/lead-discovery", desc: "Procurar barbearias" },
+    { label: "Assistente de Vendas", icon: MessageCircle, path: "/sales-conversion", desc: "Fechar negócios" },
+    { label: "Motor de Conteúdo", icon: PenTool, path: "/content-engine", desc: "Ideias de conteúdo viral" },
+    { label: "Funis de Vendas", icon: Filter, path: "/funnels", desc: "Funis multi-plataforma" },
+    { label: "Auditoria de Website", icon: Globe, path: "/website-audit", desc: "Análise de conversão" },
+    { label: "Experiências", icon: Beaker, path: "/growth-experiments", desc: "Testar & aprender" },
+    { label: "Conexões", icon: Link2, path: "/connections", desc: "Ligações de plataformas" },
+    { label: "Insights", icon: BarChart3, path: "/insights", desc: "Dados de performance" },
   ];
 
   const priorityColors: Record<string, string> = {
@@ -93,13 +93,13 @@ const Dashboard = () => {
           {/* Header */}
           <div className="mb-10 animate-fade-in-slow">
             <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">
-              Growth Director AI
+              Diretor de Crescimento IA
             </p>
             <h1 className="text-2xl font-semibold text-foreground">
-              Agenda Smart — Command Center
+              Agenda Smart — Centro de Comando
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Autonomous growth engine for barbershop client acquisition
+              Motor de crescimento autónomo para aquisição de clientes barbearias
             </p>
           </div>
 
@@ -131,8 +131,8 @@ const Dashboard = () => {
             <div className="md:col-span-2 archon-card-elevated p-6 animate-fade-in-slow animation-delay-200">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-sm font-medium text-foreground">Lead Acquisition Pipeline</h3>
-                  <p className="text-xs text-muted-foreground">Leads discovered vs converted — 7 days</p>
+                  <h3 className="text-sm font-medium text-foreground">Pipeline de Aquisição de Leads</h3>
+                  <p className="text-xs text-muted-foreground">Leads descobertos vs convertidos — 7 dias</p>
                 </div>
               </div>
               <div className="h-[200px]">
@@ -152,15 +152,15 @@ const Dashboard = () => {
                     <YAxis axisLine={false} tickLine={false} tick={{ fill: "hsl(220, 10%, 40%)", fontSize: 11 }} />
                     <Tooltip contentStyle={{ backgroundColor: "hsl(240, 8%, 10%)", border: "1px solid hsl(240, 6%, 16%)", borderRadius: "8px", color: "hsl(220, 15%, 85%)" }} />
                     <Area type="monotone" dataKey="leads" stroke="hsl(210, 100%, 55%)" strokeWidth={2} fill="url(#leadGrad)" dot={false} name="Leads" />
-                    <Area type="monotone" dataKey="conversions" stroke="hsl(160, 70%, 45%)" strokeWidth={2} fill="url(#convGrad)" dot={false} name="Conversions" />
+                    <Area type="monotone" dataKey="conversions" stroke="hsl(160, 70%, 45%)" strokeWidth={2} fill="url(#convGrad)" dot={false} name="Conversões" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
             <div className="archon-card-elevated p-6 animate-fade-in-slow animation-delay-300">
-              <h3 className="text-sm font-medium text-foreground mb-1">Discovery Channels</h3>
-              <p className="text-xs text-muted-foreground mb-4">Lead sources breakdown</p>
+              <h3 className="text-sm font-medium text-foreground mb-1">Canais de Descoberta</h3>
+              <p className="text-xs text-muted-foreground mb-4">Distribuição de fontes de leads</p>
               <div className="h-[140px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -190,7 +190,7 @@ const Dashboard = () => {
           <div className="mb-8 animate-fade-in-slow animation-delay-400">
             <h2 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4 flex items-center gap-2">
               <Zap className="w-3.5 h-3.5 text-primary" />
-              AI Strategic Recommendations
+              Recomendações Estratégicas da IA
             </h2>
             <div className="space-y-3">
               {aiRecommendations.map((rec, i) => (
@@ -214,7 +214,7 @@ const Dashboard = () => {
           {/* Modules Grid */}
           <div className="animate-fade-in-slow animation-delay-500">
             <h2 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
-              Growth Modules
+              Módulos de Crescimento
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {modules.map((m, i) => {

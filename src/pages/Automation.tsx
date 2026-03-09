@@ -18,21 +18,21 @@ const Automation = () => {
       runs: 12,
     },
     {
-      name: "Website Score Check",
+      name: "Verificação de Score do Website",
       description: "Auditoria automática do site Agenda Smart a cada 7 dias.",
       status: "paused",
       lastRun: "Há 14 dias",
       runs: 6,
     },
     {
-      name: "Content Calendar Generator",
+      name: "Gerador de Calendário de Conteúdo",
       description: "Gera calendário de conteúdo semanal baseado nas métricas de engagement.",
       status: "active",
       lastRun: "Há 1 dia",
       runs: 8,
     },
     {
-      name: "Lead Scoring Update",
+      name: "Atualização de Pontuação de Leads",
       description: "Atualiza a pontuação de leads com base nas interações recentes.",
       status: "active",
       lastRun: "Há 6 horas",
@@ -44,10 +44,10 @@ const Automation = () => {
     <AppLayout>
       <div className="min-h-screen px-6 py-20 max-w-4xl mx-auto">
         <div className="mb-10 animate-fade-in-slow">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Automation</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Automação</p>
           <h1 className="text-2xl font-semibold text-foreground flex items-center gap-3">
             <Zap className="w-6 h-6 text-primary" />
-            Automation
+            Automação
           </h1>
           <p className="text-sm text-muted-foreground mt-2">
             Workflows automatizados que executam tarefas de crescimento em segundo plano.

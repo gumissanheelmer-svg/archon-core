@@ -19,7 +19,7 @@ const SalesConversion = () => {
         <div className="mb-12 animate-fade-in-slow">
           <h1 className="text-2xl font-semibold tracking-tight mb-2 flex items-center gap-3">
             <Target className="w-6 h-6 text-primary" />
-            Sales Conversion Engine
+            Motor de Conversão de Vendas
           </h1>
           <p className="text-sm text-muted-foreground">Cole a conversa com o lead e receba a próxima resposta ideal para fechar a venda.</p>
         </div>

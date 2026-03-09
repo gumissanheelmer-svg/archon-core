@@ -25,7 +25,7 @@ const WebsiteAudit = () => {
         <div className="mb-12 animate-fade-in-slow">
           <h1 className="text-2xl font-semibold tracking-tight mb-2 flex items-center gap-3">
             <Globe className="w-6 h-6 text-primary" />
-            Website Audit Engine
+            Motor de Auditoria de Website
           </h1>
           <p className="text-sm text-muted-foreground">Analise o seu site e descubra problemas de conversão, CTAs e prova social.</p>
         </div>
