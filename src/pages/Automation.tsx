@@ -18,7 +18,7 @@ const Automation = () => {
       runs: 12,
     },
     {
-      name: "Website Score Check",
+      name: "Verificação de Score do Website",
       description: "Auditoria automática do site Agenda Smart a cada 7 dias.",
       status: "paused",
       lastRun: "Há 14 dias",
