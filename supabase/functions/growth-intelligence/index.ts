@@ -5,7 +5,6 @@ import {
   validatePayload,
   auditLog,
   getSecurityHeaders,
-  sanitizeOutput,
 } from "../_shared/security.ts";
 
 const RATE_LIMIT_CONFIG = { maxRequests: 20, windowMs: 10 * 60 * 1000 };
@@ -17,7 +16,9 @@ type EngineMode =
   | "funnel-generator"
   | "persuasion"
   | "sales-conversion"
-  | "improvement-analysis";
+  | "improvement-analysis"
+  | "lead-discovery"
+  | "growth-experiments";
 
 interface GrowthRequest {
   mode: EngineMode;
@@ -28,6 +29,57 @@ interface GrowthRequest {
 }
 
 const ENGINE_PROMPTS: Record<EngineMode, { system: string; toolName: string; toolDesc: string; schema: Record<string, any> }> = {
+  "lead-discovery": {
+    system: `Você é o ARCHON Lead Discovery Engine — motor autônomo de descoberta de leads para o Agenda Smart.
+
+Sua missão: identificar barbearias e negócios de beleza que podem ser clientes do Agenda Smart.
+
+Com base na localização/contexto fornecido, gere:
+1. **Leads Descobertos** — lista de barbearias/negócios potenciais com nome, localização, plataforma onde foi encontrado, score de potencial (0-100), e motivo do score
+2. **Estratégia de Abordagem** — como abordar cada tipo de lead
+3. **Canais de Descoberta** — onde procurar mais leads (Google Maps, Instagram hashtags, grupos Facebook, TikTok)
+4. **Estimativa de Mercado** — tamanho estimado do mercado na região
+
+Gere dados REALISTAS e ESPECÍFICOS para a região indicada.
+Use **negrito** para conceitos-chave.`,
+    toolName: "lead_discovery_result",
+    toolDesc: "Leads descobertos com scores e estratégias de abordagem",
+    schema: {
+      type: "object",
+      properties: {
+        leads: { type: "array", items: { type: "object", properties: { name: { type: "string" }, location: { type: "string" }, platform: { type: "string" }, score: { type: "number" }, reason: { type: "string" }, category: { type: "string" }, estimated_employees: { type: "number" }, contact_strategy: { type: "string" } }, required: ["name", "location", "platform", "score", "reason", "category"] } },
+        channels: { type: "array", items: { type: "object", properties: { channel: { type: "string" }, strategy: { type: "string" }, estimated_leads: { type: "string" }, difficulty: { type: "string" } }, required: ["channel", "strategy", "estimated_leads", "difficulty"] } },
+        approach_strategies: { type: "array", items: { type: "object", properties: { persona: { type: "string" }, channel: { type: "string" }, message_template: { type: "string" }, tone: { type: "string" } }, required: ["persona", "channel", "message_template", "tone"] } },
+        market_estimate: { type: "object", properties: { total_businesses: { type: "string" }, addressable_market: { type: "string" }, penetration_rate: { type: "string" }, revenue_potential: { type: "string" } }, required: ["total_businesses", "addressable_market"] },
+        summary: { type: "string" }
+      },
+      required: ["leads", "channels", "approach_strategies", "market_estimate", "summary"]
+    }
+  },
+  "growth-experiments": {
+    system: `Você é o ARCHON Growth Experiments Engine — motor de experimentação de crescimento para o Agenda Smart.
+
+Com base no contexto e objetivos fornecidos, gere:
+1. **Experimentos de Marketing** — hipóteses testáveis com métricas claras
+2. **Priorização ICE** — Impact, Confidence, Ease score para cada experimento
+3. **Plano de Execução** — passos concretos para cada experimento
+4. **Métricas de Sucesso** — KPIs para medir resultados
+5. **Timeline** — cronograma de execução
+
+Cada experimento deve ser CONCRETO e EXECUTÁVEL em 1-2 semanas.
+Use **negrito** para conceitos-chave.`,
+    toolName: "growth_experiments_result",
+    toolDesc: "Experimentos de crescimento com priorização e planos de execução",
+    schema: {
+      type: "object",
+      properties: {
+        experiments: { type: "array", items: { type: "object", properties: { name: { type: "string" }, hypothesis: { type: "string" }, channel: { type: "string" }, ice_score: { type: "object", properties: { impact: { type: "number" }, confidence: { type: "number" }, ease: { type: "number" }, total: { type: "number" } }, required: ["impact", "confidence", "ease", "total"] }, steps: { type: "array", items: { type: "string" } }, success_metrics: { type: "array", items: { type: "string" } }, timeline: { type: "string" }, budget: { type: "string" }, expected_result: { type: "string" } }, required: ["name", "hypothesis", "channel", "ice_score", "steps", "success_metrics", "timeline"] } },
+        recommended_order: { type: "array", items: { type: "string" } },
+        summary: { type: "string" }
+      },
+      required: ["experiments", "recommended_order", "summary"]
+    }
+  },
   "website-audit": {
     system: `Você é o ARCHON Website Audit Engine — analisador autônomo de websites para o Agenda Smart.
 
@@ -44,12 +96,12 @@ Use **negrito** para conceitos-chave. Seja direto e prático.`,
     schema: {
       type: "object",
       properties: {
-        score: { type: "number", description: "Score de 0-100 da qualidade geral do site" },
+        score: { type: "number" },
         cta_issues: { type: "array", items: { type: "object", properties: { problem: { type: "string" }, suggestion: { type: "string" }, priority: { type: "string", enum: ["alta", "media", "baixa"] } }, required: ["problem", "suggestion", "priority"] } },
         clarity_issues: { type: "array", items: { type: "object", properties: { problem: { type: "string" }, suggestion: { type: "string" }, priority: { type: "string", enum: ["alta", "media", "baixa"] } }, required: ["problem", "suggestion", "priority"] } },
         conversion_issues: { type: "array", items: { type: "object", properties: { problem: { type: "string" }, suggestion: { type: "string" }, priority: { type: "string", enum: ["alta", "media", "baixa"] } }, required: ["problem", "suggestion", "priority"] } },
         social_proof_issues: { type: "array", items: { type: "object", properties: { problem: { type: "string" }, suggestion: { type: "string" }, priority: { type: "string", enum: ["alta", "media", "baixa"] } }, required: ["problem", "suggestion", "priority"] } },
-        summary: { type: "string", description: "Resumo executivo da auditoria com top 3 prioridades" }
+        summary: { type: "string" }
       },
       required: ["score", "cta_issues", "clarity_issues", "conversion_issues", "social_proof_issues", "summary"]
     }
@@ -95,7 +147,7 @@ Use **negrito**.`,
       type: "object",
       properties: {
         funnels: { type: "array", items: { type: "object", properties: { platform: { type: "string" }, name: { type: "string" }, steps: { type: "array", items: { type: "object", properties: { step: { type: "number" }, action: { type: "string" }, copy: { type: "string" }, expected_conversion: { type: "string" } }, required: ["step", "action", "copy", "expected_conversion"] } }, estimated_roi: { type: "string" } }, required: ["platform", "name", "steps", "estimated_roi"] } },
-        recommended_funnel: { type: "string", description: "Qual funil priorizar e porquê" },
+        recommended_funnel: { type: "string" },
         summary: { type: "string" }
       },
       required: ["funnels", "recommended_funnel", "summary"]
@@ -140,11 +192,11 @@ Use **negrito**.`,
     schema: {
       type: "object",
       properties: {
-        recommended_response: { type: "string", description: "Resposta principal recomendada" },
+        recommended_response: { type: "string" },
         variants: { type: "array", items: { type: "object", properties: { tone: { type: "string" }, message: { type: "string" } }, required: ["tone", "message"] } },
         buying_signals: { type: "array", items: { type: "string" } },
         hidden_objections: { type: "array", items: { type: "string" } },
-        closing_technique: { type: "string", description: "Técnica de fechamento recomendada" },
+        closing_technique: { type: "string" },
         next_steps: { type: "array", items: { type: "string" } },
         summary: { type: "string" }
       },
