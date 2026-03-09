@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { X, Users, Target, LayoutDashboard, ListChecks, History, UserCircle, Settings, Brain, Globe, TrendingUp, Filter, Sparkles, MessageCircle, Link2 } from "lucide-react";
+import { X, LayoutDashboard, Rocket, Filter, Users, PenTool, Globe, Link2, Zap, Brain, BarChart3 } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -7,20 +7,16 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { path: "/council", label: "Sala do Conselho", icon: Users },
-  { path: "/object", label: "Objeto em Análise", icon: Target },
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/actions", label: "Planos & Ações", icon: ListChecks },
+  { path: "/growth-strategy", label: "Growth Strategy", icon: Rocket },
+  { path: "/funnels", label: "Sales Funnels", icon: Filter },
+  { path: "/lead-intelligence", label: "Lead Intelligence", icon: Users },
+  { path: "/content-engine", label: "Content Engine", icon: PenTool },
   { path: "/website-audit", label: "Website Audit", icon: Globe },
-  { path: "/social-growth", label: "Social Growth", icon: TrendingUp },
-  { path: "/funnels", label: "Funis de Vendas", icon: Filter },
-  { path: "/persuasion", label: "Persuasão", icon: Sparkles },
-  { path: "/sales-conversion", label: "Fechamento", icon: MessageCircle },
-  { path: "/connections", label: "Conexões", icon: Link2 },
-  { path: "/history", label: "Histórico", icon: History },
-  { path: "/memory", label: "Memória Estratégica", icon: Brain },
-  { path: "/profiles", label: "Perfis", icon: UserCircle },
-  { path: "/settings", label: "Configurações", icon: Settings },
+  { path: "/connections", label: "Connections", icon: Link2 },
+  { path: "/automation", label: "Automation", icon: Zap },
+  { path: "/memory", label: "Memory", icon: Brain },
+  { path: "/insights", label: "Insights", icon: BarChart3 },
 ];
 
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
@@ -34,15 +30,13 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
   return (
     <>
-      {/* Overlay */}
       <div
-        className={`fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity duration-500 ${
+        className={`fixed inset-0 z-50 bg-background/80 backdrop-blur-sm transition-opacity duration-500 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
       />
 
-      {/* Sidebar */}
       <aside
         className={`fixed left-0 top-0 z-50 h-full w-72 bg-sidebar border-r border-sidebar-border 
                     transition-transform duration-500 ease-out ${
@@ -50,9 +44,12 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         }`}
       >
         <div className="h-16 px-6 flex items-center justify-between border-b border-sidebar-border">
-          <span className="text-sm uppercase tracking-[0.2em] text-sidebar-foreground font-medium">
-            Menu
-          </span>
+          <div className="flex items-center gap-2.5">
+            <div className="w-2 h-2 rounded-full bg-primary" />
+            <span className="text-xs uppercase tracking-[0.2em] text-sidebar-foreground font-medium">
+              ARCHON
+            </span>
+          </div>
           <button
             onClick={onClose}
             className="p-2 text-muted-foreground hover:text-foreground transition-colors duration-300"
@@ -81,8 +78,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         </nav>
 
         <div className="absolute bottom-8 left-0 right-0 px-6">
-          <div className="text-xs text-muted-foreground/50 uppercase tracking-wider">
-            Growth Intelligence v2.0
+          <div className="text-xs text-muted-foreground/40 uppercase tracking-wider">
+            Growth Intelligence v3.0
           </div>
         </div>
       </aside>
