@@ -7,18 +7,18 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/lead-discovery", label: "Lead Discovery", icon: Search },
-  { path: "/lead-intelligence", label: "Lead Intelligence", icon: Users },
-  { path: "/sales-conversion", label: "Sales Assistant", icon: MessageCircle },
-  { path: "/funnels", label: "Sales Funnels", icon: Filter },
-  { path: "/content-engine", label: "Content Engine", icon: PenTool },
-  { path: "/website-audit", label: "Website Audit", icon: Globe },
-  { path: "/growth-experiments", label: "Growth Experiments", icon: Beaker },
-  { path: "/growth-strategy", label: "Growth Strategy", icon: Rocket },
-  { path: "/connections", label: "Connections", icon: Link2 },
-  { path: "/automation", label: "Automation", icon: Zap },
-  { path: "/memory", label: "Memory", icon: Brain },
+  { path: "/dashboard", label: "Painel", icon: LayoutDashboard },
+  { path: "/lead-discovery", label: "Descoberta de Leads", icon: Search },
+  { path: "/lead-intelligence", label: "Inteligência de Leads", icon: Users },
+  { path: "/sales-conversion", label: "Assistente de Vendas", icon: MessageCircle },
+  { path: "/funnels", label: "Funis de Vendas", icon: Filter },
+  { path: "/content-engine", label: "Motor de Conteúdo", icon: PenTool },
+  { path: "/website-audit", label: "Auditoria de Website", icon: Globe },
+  { path: "/growth-experiments", label: "Experiências de Crescimento", icon: Beaker },
+  { path: "/growth-strategy", label: "Estratégia de Crescimento", icon: Rocket },
+  { path: "/connections", label: "Conexões", icon: Link2 },
+  { path: "/automation", label: "Automação", icon: Zap },
+  { path: "/memory", label: "Memória", icon: Brain },
   { path: "/insights", label: "Insights", icon: BarChart3 },
 ];
 
