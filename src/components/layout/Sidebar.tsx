@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { X, LayoutDashboard, Rocket, Filter, Users, PenTool, Globe, Link2, Zap, Brain, BarChart3 } from "lucide-react";
+import { X, LayoutDashboard, Rocket, Filter, Users, PenTool, Globe, Link2, Zap, Brain, BarChart3, Search, Beaker, MessageCircle } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -8,11 +8,14 @@ interface SidebarProps {
 
 const menuItems = [
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/growth-strategy", label: "Growth Strategy", icon: Rocket },
-  { path: "/funnels", label: "Sales Funnels", icon: Filter },
+  { path: "/lead-discovery", label: "Lead Discovery", icon: Search },
   { path: "/lead-intelligence", label: "Lead Intelligence", icon: Users },
+  { path: "/sales-conversion", label: "Sales Assistant", icon: MessageCircle },
+  { path: "/funnels", label: "Sales Funnels", icon: Filter },
   { path: "/content-engine", label: "Content Engine", icon: PenTool },
   { path: "/website-audit", label: "Website Audit", icon: Globe },
+  { path: "/growth-experiments", label: "Growth Experiments", icon: Beaker },
+  { path: "/growth-strategy", label: "Growth Strategy", icon: Rocket },
   { path: "/connections", label: "Connections", icon: Link2 },
   { path: "/automation", label: "Automation", icon: Zap },
   { path: "/memory", label: "Memory", icon: Brain },
@@ -47,7 +50,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           <div className="flex items-center gap-2.5">
             <div className="w-2 h-2 rounded-full bg-primary" />
             <span className="text-xs uppercase tracking-[0.2em] text-sidebar-foreground font-medium">
-              ARCHON
+              ARCHON — Growth Director
             </span>
           </div>
           <button
@@ -58,7 +61,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           </button>
         </div>
 
-        <nav className="py-4">
+        <nav className="py-4 overflow-y-auto" style={{ maxHeight: "calc(100vh - 8rem)" }}>
           {menuItems.map((item, index) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -79,7 +82,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
         <div className="absolute bottom-8 left-0 right-0 px-6">
           <div className="text-xs text-muted-foreground/40 uppercase tracking-wider">
-            Growth Intelligence v3.0
+            Growth Director AI v4.0
           </div>
         </div>
       </aside>

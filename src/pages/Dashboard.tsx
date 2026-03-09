@@ -1,71 +1,90 @@
 import { useNavigate } from "react-router-dom";
-import { TrendingUp, Users, Filter, Globe, Zap, ArrowRight, Target, BarChart3 } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart, Area } from "recharts";
+import { TrendingUp, Users, Filter, Globe, Zap, ArrowRight, Target, Search, Beaker, PenTool, Link2, Brain, BarChart3, MessageCircle } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip, PieChart, Pie, Cell } from "recharts";
 import AppLayout from "@/components/layout/AppLayout";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const conversionData = [
-    { day: "Seg", value: 2.1 },
-    { day: "Ter", value: 2.4 },
-    { day: "Qua", value: 2.2 },
-    { day: "Qui", value: 2.8 },
-    { day: "Sex", value: 3.1 },
-    { day: "Sáb", value: 3.4 },
-    { day: "Dom", value: 3.2 },
+    { day: "Seg", leads: 12, conversions: 2 },
+    { day: "Ter", leads: 18, conversions: 3 },
+    { day: "Qua", leads: 15, conversions: 2 },
+    { day: "Qui", leads: 22, conversions: 4 },
+    { day: "Sex", leads: 28, conversions: 5 },
+    { day: "Sáb", leads: 25, conversions: 4 },
+    { day: "Dom", leads: 20, conversions: 3 },
   ];
 
-  const leadsData = [
-    { day: "Seg", value: 12 },
-    { day: "Ter", value: 18 },
-    { day: "Qua", value: 15 },
-    { day: "Qui", value: 22 },
-    { day: "Sex", value: 28 },
-    { day: "Sáb", value: 25 },
-    { day: "Dom", value: 20 },
+  const channelData = [
+    { name: "Google Maps", value: 35, color: "hsl(210, 100%, 55%)" },
+    { name: "Instagram", value: 28, color: "hsl(320, 80%, 50%)" },
+    { name: "TikTok", value: 20, color: "hsl(160, 70%, 45%)" },
+    { name: "Facebook", value: 12, color: "hsl(280, 70%, 55%)" },
+    { name: "WhatsApp", value: 5, color: "hsl(40, 90%, 50%)" },
   ];
 
   const metrics = [
-    { label: "Leads Este Mês", value: "142", change: "+23%", up: true },
-    { label: "Taxa de Conversão", value: "3.2%", change: "+18%", up: true },
-    { label: "Custo por Lead", value: "€2.40", change: "-12%", up: true },
-    { label: "Revenue Pipeline", value: "€6.8K", change: "+31%", up: true },
+    { label: "Barbershops Discovered", value: "347", change: "+42", icon: Search },
+    { label: "Active Leads", value: "89", change: "+18", icon: Users },
+    { label: "Conversion Rate", value: "4.2%", change: "+0.8%", icon: Target },
+    { label: "Revenue Pipeline", value: "€12.4K", change: "+31%", icon: TrendingUp },
   ];
 
   const aiRecommendations = [
     {
-      module: "GROWTH",
-      message: "Horário das 19h tem 40% mais engajamento no Instagram. Agende posts para esse horário.",
+      module: "DISCOVERY",
+      priority: "high",
+      message: "23 barbershops in Porto without online scheduling detected. Launch Google Maps outreach campaign.",
+      action: "Discover Leads",
+      path: "/lead-discovery",
+    },
+    {
+      module: "SALES",
+      priority: "high",
+      message: "5 hot leads haven't received follow-up in 48h. Use the Sales Assistant to craft closing messages.",
+      action: "Sales Assistant",
+      path: "/sales-conversion",
+    },
+    {
+      module: "CONTENT",
+      priority: "medium",
+      message: "TikTok barbershop content is trending. Generate viral scripts targeting barber transformations.",
       action: "Content Engine",
       path: "/content-engine",
     },
     {
-      module: "FUNNELS",
-      message: "O funil WhatsApp tem a maior taxa de conversão (8.2%). Duplique o investimento.",
-      action: "Sales Funnels",
-      path: "/funnels",
+      module: "EXPERIMENT",
+      priority: "medium",
+      message: "WhatsApp funnel has 8.2% conversion. Run an experiment doubling broadcast frequency.",
+      action: "Experiments",
+      path: "/growth-experiments",
     },
     {
       module: "AUDIT",
-      message: "CTA principal do site está abaixo da fold. Mova para o topo para +25% conversão.",
+      priority: "low",
+      message: "Agenda Smart website CTA is below the fold. Move it up for estimated +25% conversion.",
       action: "Website Audit",
       path: "/website-audit",
     },
-    {
-      module: "LEADS",
-      message: "3 leads quentes não receberam follow-up há 48h. Feche antes que esfriem.",
-      action: "Lead Intelligence",
-      path: "/lead-intelligence",
-    },
   ];
 
-  const quickActions = [
-    { label: "Growth Strategy", icon: TrendingUp, path: "/growth-strategy" },
-    { label: "Sales Funnels", icon: Filter, path: "/funnels" },
-    { label: "Lead Intelligence", icon: Users, path: "/lead-intelligence" },
-    { label: "Website Audit", icon: Globe, path: "/website-audit" },
+  const modules = [
+    { label: "Lead Discovery", icon: Search, path: "/lead-discovery", desc: "Scan for barbershops" },
+    { label: "Sales Assistant", icon: MessageCircle, path: "/sales-conversion", desc: "Close deals faster" },
+    { label: "Content Engine", icon: PenTool, path: "/content-engine", desc: "Viral content ideas" },
+    { label: "Sales Funnels", icon: Filter, path: "/funnels", desc: "Multi-platform funnels" },
+    { label: "Website Audit", icon: Globe, path: "/website-audit", desc: "Conversion analysis" },
+    { label: "Experiments", icon: Beaker, path: "/growth-experiments", desc: "Test & learn" },
+    { label: "Connections", icon: Link2, path: "/connections", desc: "Platform links" },
+    { label: "Insights", icon: BarChart3, path: "/insights", desc: "Performance data" },
   ];
+
+  const priorityColors: Record<string, string> = {
+    high: "bg-destructive/20 text-destructive",
+    medium: "bg-primary/20 text-primary",
+    low: "bg-muted text-muted-foreground",
+  };
 
   return (
     <AppLayout>
@@ -74,95 +93,95 @@ const Dashboard = () => {
           {/* Header */}
           <div className="mb-10 animate-fade-in-slow">
             <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">
-              Command Center
+              Growth Director AI
             </p>
             <h1 className="text-2xl font-semibold text-foreground">
-              Growth Dashboard
+              Agenda Smart — Command Center
             </h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Autonomous growth engine for barbershop client acquisition
+            </p>
           </div>
 
           {/* Metrics Row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            {metrics.map((m, i) => (
-              <div
-                key={i}
-                className="archon-card-elevated p-5 animate-fade-in-slow"
-                style={{ animationDelay: `${i * 100}ms` }}
-              >
-                <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">{m.label}</p>
-                <div className="flex items-end justify-between">
-                  <span className="text-2xl font-semibold font-mono text-foreground">{m.value}</span>
-                  <span className={`text-xs font-mono ${m.up ? "text-primary" : "text-destructive"}`}>
-                    {m.change}
-                  </span>
+            {metrics.map((m, i) => {
+              const Icon = m.icon;
+              return (
+                <div
+                  key={i}
+                  className="archon-card-elevated p-5 animate-fade-in-slow"
+                  style={{ animationDelay: `${i * 100}ms` }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <Icon className="w-4 h-4 text-primary" />
+                    <p className="text-xs text-muted-foreground uppercase tracking-wider">{m.label}</p>
+                  </div>
+                  <div className="flex items-end justify-between">
+                    <span className="text-2xl font-semibold font-mono text-foreground">{m.value}</span>
+                    <span className="text-xs font-mono text-primary">{m.change}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Charts Row */}
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <div className="archon-card-elevated p-6 animate-fade-in-slow animation-delay-200">
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="md:col-span-2 archon-card-elevated p-6 animate-fade-in-slow animation-delay-200">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-sm font-medium text-foreground">Taxa de Conversão</h3>
-                  <p className="text-xs text-muted-foreground">Últimos 7 dias</p>
-                </div>
-                <div className="flex items-center gap-2 text-primary">
-                  <TrendingUp className="w-4 h-4" />
-                  <span className="text-sm font-mono">+18%</span>
+                  <h3 className="text-sm font-medium text-foreground">Lead Acquisition Pipeline</h3>
+                  <p className="text-xs text-muted-foreground">Leads discovered vs converted — 7 days</p>
                 </div>
               </div>
-              <div className="h-[180px]">
+              <div className="h-[200px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={conversionData}>
                     <defs>
-                      <linearGradient id="convGrad" x1="0" y1="0" x2="0" y2="1">
+                      <linearGradient id="leadGrad" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="hsl(210, 100%, 55%)" stopOpacity={0.3} />
                         <stop offset="100%" stopColor="hsl(210, 100%, 55%)" stopOpacity={0} />
                       </linearGradient>
-                    </defs>
-                    <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: "hsl(220, 10%, 40%)", fontSize: 11 }} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fill: "hsl(220, 10%, 40%)", fontSize: 11 }} domain={[0, 5]} tickFormatter={(v) => `${v}%`} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: "hsl(240, 8%, 10%)", border: "1px solid hsl(240, 6%, 16%)", borderRadius: "8px", color: "hsl(220, 15%, 85%)" }}
-                      formatter={(value: number) => [`${value}%`, "Conversão"]}
-                    />
-                    <Area type="monotone" dataKey="value" stroke="hsl(210, 100%, 55%)" strokeWidth={2} fill="url(#convGrad)" dot={false} activeDot={{ r: 4, fill: "hsl(210, 100%, 55%)" }} />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            <div className="archon-card-elevated p-6 animate-fade-in-slow animation-delay-300">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-sm font-medium text-foreground">Leads Capturados</h3>
-                  <p className="text-xs text-muted-foreground">Últimos 7 dias</p>
-                </div>
-                <div className="flex items-center gap-2 text-primary">
-                  <Users className="w-4 h-4" />
-                  <span className="text-sm font-mono">140</span>
-                </div>
-              </div>
-              <div className="h-[180px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={leadsData}>
-                    <defs>
-                      <linearGradient id="leadGrad" x1="0" y1="0" x2="0" y2="1">
+                      <linearGradient id="convGrad" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="hsl(160, 70%, 45%)" stopOpacity={0.3} />
                         <stop offset="100%" stopColor="hsl(160, 70%, 45%)" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: "hsl(220, 10%, 40%)", fontSize: 11 }} />
                     <YAxis axisLine={false} tickLine={false} tick={{ fill: "hsl(220, 10%, 40%)", fontSize: 11 }} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: "hsl(240, 8%, 10%)", border: "1px solid hsl(240, 6%, 16%)", borderRadius: "8px", color: "hsl(220, 15%, 85%)" }}
-                      formatter={(value: number) => [value, "Leads"]}
-                    />
-                    <Area type="monotone" dataKey="value" stroke="hsl(160, 70%, 45%)" strokeWidth={2} fill="url(#leadGrad)" dot={false} activeDot={{ r: 4, fill: "hsl(160, 70%, 45%)" }} />
+                    <Tooltip contentStyle={{ backgroundColor: "hsl(240, 8%, 10%)", border: "1px solid hsl(240, 6%, 16%)", borderRadius: "8px", color: "hsl(220, 15%, 85%)" }} />
+                    <Area type="monotone" dataKey="leads" stroke="hsl(210, 100%, 55%)" strokeWidth={2} fill="url(#leadGrad)" dot={false} name="Leads" />
+                    <Area type="monotone" dataKey="conversions" stroke="hsl(160, 70%, 45%)" strokeWidth={2} fill="url(#convGrad)" dot={false} name="Conversions" />
                   </AreaChart>
                 </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="archon-card-elevated p-6 animate-fade-in-slow animation-delay-300">
+              <h3 className="text-sm font-medium text-foreground mb-1">Discovery Channels</h3>
+              <p className="text-xs text-muted-foreground mb-4">Lead sources breakdown</p>
+              <div className="h-[140px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie data={channelData} cx="50%" cy="50%" innerRadius={35} outerRadius={55} dataKey="value" stroke="none">
+                      {channelData.map((entry, i) => (
+                        <Cell key={i} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="space-y-1.5 mt-2">
+                {channelData.map((c, i) => (
+                  <div key={i} className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: c.color }} />
+                      <span className="text-muted-foreground">{c.name}</span>
+                    </div>
+                    <span className="font-mono text-foreground">{c.value}%</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -171,7 +190,7 @@ const Dashboard = () => {
           <div className="mb-8 animate-fade-in-slow animation-delay-400">
             <h2 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4 flex items-center gap-2">
               <Zap className="w-3.5 h-3.5 text-primary" />
-              AI Recommendations
+              AI Strategic Recommendations
             </h2>
             <div className="space-y-3">
               {aiRecommendations.map((rec, i) => (
@@ -180,8 +199,8 @@ const Dashboard = () => {
                   className="archon-card p-4 flex items-start gap-4 group cursor-pointer hover:border-primary/30 transition-all duration-300"
                   onClick={() => navigate(rec.path)}
                 >
-                  <div className="flex-shrink-0 mt-0.5">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-primary bg-primary/10 px-2 py-1 rounded">
+                  <div className="flex-shrink-0 mt-0.5 flex items-center gap-2">
+                    <span className={`text-[10px] font-mono uppercase tracking-widest px-2 py-1 rounded ${priorityColors[rec.priority]}`}>
                       {rec.module}
                     </span>
                   </div>
@@ -192,22 +211,23 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Quick Actions */}
+          {/* Modules Grid */}
           <div className="animate-fade-in-slow animation-delay-500">
             <h2 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
-              Quick Actions
+              Growth Modules
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {quickActions.map((qa, i) => {
-                const Icon = qa.icon;
+              {modules.map((m, i) => {
+                const Icon = m.icon;
                 return (
                   <button
                     key={i}
-                    onClick={() => navigate(qa.path)}
+                    onClick={() => navigate(m.path)}
                     className="archon-card p-4 text-left hover:border-primary/30 hover:bg-secondary/30 transition-all duration-300 group"
                   >
                     <Icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mb-3" />
-                    <span className="text-sm text-foreground">{qa.label}</span>
+                    <span className="text-sm text-foreground block">{m.label}</span>
+                    <span className="text-xs text-muted-foreground">{m.desc}</span>
                   </button>
                 );
               })}

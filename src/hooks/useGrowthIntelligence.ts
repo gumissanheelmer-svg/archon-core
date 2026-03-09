@@ -8,7 +8,9 @@ export type EngineMode =
   | "funnel-generator"
   | "persuasion"
   | "sales-conversion"
-  | "improvement-analysis";
+  | "improvement-analysis"
+  | "lead-discovery"
+  | "growth-experiments";
 
 export const useGrowthIntelligence = () => {
   const { toast } = useToast();

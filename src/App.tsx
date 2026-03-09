@@ -12,12 +12,15 @@ import Dashboard from "./pages/Dashboard";
 import GrowthStrategy from "./pages/GrowthStrategy";
 import Funnels from "./pages/Funnels";
 import LeadIntelligence from "./pages/LeadIntelligence";
+import LeadDiscovery from "./pages/LeadDiscovery";
 import ContentEngine from "./pages/ContentEngine";
 import WebsiteAudit from "./pages/WebsiteAudit";
 import Connections from "./pages/Connections";
 import Automation from "./pages/Automation";
 import Memory from "./pages/Memory";
 import Insights from "./pages/Insights";
+import GrowthExperiments from "./pages/GrowthExperiments";
+import SalesConversion from "./pages/SalesConversion";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
@@ -39,12 +42,15 @@ const App = () => (
               <Route path="/growth-strategy" element={<AuthGuard><GrowthStrategy /></AuthGuard>} />
               <Route path="/funnels" element={<AuthGuard><Funnels /></AuthGuard>} />
               <Route path="/lead-intelligence" element={<AuthGuard><LeadIntelligence /></AuthGuard>} />
+              <Route path="/lead-discovery" element={<AuthGuard><LeadDiscovery /></AuthGuard>} />
               <Route path="/content-engine" element={<AuthGuard><ContentEngine /></AuthGuard>} />
               <Route path="/website-audit" element={<AuthGuard><WebsiteAudit /></AuthGuard>} />
               <Route path="/connections" element={<AuthGuard><Connections /></AuthGuard>} />
               <Route path="/automation" element={<AuthGuard><Automation /></AuthGuard>} />
               <Route path="/memory" element={<AuthGuard><Memory /></AuthGuard>} />
               <Route path="/insights" element={<AuthGuard><Insights /></AuthGuard>} />
+              <Route path="/growth-experiments" element={<AuthGuard><GrowthExperiments /></AuthGuard>} />
+              <Route path="/sales-conversion" element={<AuthGuard><SalesConversion /></AuthGuard>} />
               <Route path="/settings" element={<AuthGuard><Settings /></AuthGuard>} />
               
               <Route path="*" element={<NotFound />} />
